@@ -1,6 +1,7 @@
 package com.parkingmanagement.parkingmanagement.dto;
 
 import com.parkingmanagement.parkingmanagement.model.Car;
+import com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

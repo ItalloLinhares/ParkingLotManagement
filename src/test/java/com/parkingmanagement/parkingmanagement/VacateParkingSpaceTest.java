@@ -1,6 +1,5 @@
 package com.parkingmanagement.parkingmanagement;
 
-import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDTO;
 import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Car;
 import com.parkingmanagement.parkingmanagement.model.Occupation;
@@ -18,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 
@@ -46,7 +44,6 @@ public class VacateParkingSpaceTest {
         Occupation occupationExpected = parkingSpaceService.vacateParkingSpace(vacateParkingSpaceDto);
 
         Assertions.assertEquals(occupationExpected, occupationActual);
-
     }
 
 }

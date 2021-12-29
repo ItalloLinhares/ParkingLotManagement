@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FillParkingSpaceDTO {
+public class FillParkingSpaceDto {
     private Long id;
     private Car car;
     private Long clientCpf;
