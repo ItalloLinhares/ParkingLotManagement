@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0695aa71-b526-4932-a3ed-2fcf5bc3eb65" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/ParkingmanagementApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/controller/IndexController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/EmptyParkingSpaceDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/FillParkingSpaceDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/OccupationDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/VacateParkingSpaceDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/model/Car.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/model/Occupation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/model/ParkingSpace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/repository/OccupationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/repository/ParkingSpaceRespository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/service/ParkingSpaceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/service/ParkingSpaceServiceImplementation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/status/ParkingSpaceStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/FillParkingSpaceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/ListOccupationTeste.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/ListParkingSpaceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/ParkingmanagementApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/VacateParkingSpaceTest.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="22yFkSJVqPRNKg0a5MXKQ1yObKx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/back" />
+  </component>
+  <component name="RunManager" selected="JUnit.ListOccupationTeste.listOccupationByCpf">
+    <configuration name="ListOccupationTeste" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="parkingmanagement" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.parkingmanagement.parkingmanagement.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.parkingmanagement.parkingmanagement" />
+      <option name="MAIN_CLASS_NAME" value="com.parkingmanagement.parkingmanagement.ListOccupationTeste" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ListOccupationTeste.listOccupationByCpf" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="parkingmanagement" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.parkingmanagement.parkingmanagement.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.parkingmanagement.parkingmanagement" />
+      <option name="MAIN_CLASS_NAME" value="com.parkingmanagement.parkingmanagement.ListOccupationTeste" />
+      <option name="METHOD_NAME" value="listOccupationByCpf" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ListOccupationTeste.listOccupationById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="parkingmanagement" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.parkingmanagement.parkingmanagement.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.parkingmanagement.parkingmanagement" />
+      <option name="MAIN_CLASS_NAME" value="com.parkingmanagement.parkingmanagement.ListOccupationTeste" />
+      <option name="METHOD_NAME" value="listOccupationById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ListOccupationTeste.listOccupationByLicensePlate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="parkingmanagement" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.parkingmanagement.parkingmanagement.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.parkingmanagement.parkingmanagement" />
+      <option name="MAIN_CLASS_NAME" value="com.parkingmanagement.parkingmanagement.ListOccupationTeste" />
+      <option name="METHOD_NAME" value="listOccupationByLicensePlate" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ListParkingSpaceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="parkingmanagement" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.parkingmanagement.parkingmanagement.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.parkingmanagement.parkingmanagement" />
+      <option name="MAIN_CLASS_NAME" value="com.parkingmanagement.parkingmanagement.ListParkingSpaceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ListOccupationTeste.listOccupationByCpf" />
+        <item itemvalue="JUnit.ListOccupationTeste.listOccupationByLicensePlate" />
+        <item itemvalue="JUnit.ListOccupationTeste.listOccupationById" />
+        <item itemvalue="JUnit.ListOccupationTeste" />
+        <item itemvalue="JUnit.ListParkingSpaceTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0695aa71-b526-4932-a3ed-2fcf5bc3eb65" name="Changes" comment="" />
+      <created>1640802064522</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1640802064522</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
