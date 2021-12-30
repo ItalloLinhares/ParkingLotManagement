@@ -2,6 +2,7 @@ package com.parkingmanagement.parkingmanagement.service;
 
 import com.parkingmanagement.parkingmanagement.dto.EmptyParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
+import com.parkingmanagement.parkingmanagement.dto.OccupationDto;
 import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
@@ -9,6 +10,7 @@ import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,6 +126,55 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     @Override
     public List<ParkingSpace> listParkingSpace() {
         return parkingSpaceRespository.findAll();
+    }
+
+    @Override
+    public List<Occupation> listAll() {
+        return occupationRepository.findAll();
+    }
+
+    @Override
+    public OccupationDto listOccupationById(Long id) {
+        Long n = occupationRepository.count();
+        for (int i = 1; i <= n; i++){
+            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
+            if(occupation.get().getId() == id){
+                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
+                return occupationDto;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<OccupationDto> listOccupationByLicensePlate(String licensePlate) {
+        Long n = occupationRepository.count();
+        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
+        for (int i = 1; i <= n; i++){
+            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
+            if(occupation.get().getCar().getCarLicensePlate() == licensePlate){
+                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
+                occupationDtoList.add(occupationDto);
+            }
+        }
+        return occupationDtoList;
+    }
+
+    @Override
+    public List<OccupationDto> listOccupationByCpf(Long cpf) {
+        Long n = occupationRepository.count();
+        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
+        for (int i = 1; i <= n; i++){
+            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
+            occupation.ifPresent(occupationPresent -> {
+                if(occupationPresent.getClientCpf() == cpf){
+                    OccupationDto occupationDto = new OccupationDto(occupationPresent.getId(), occupationPresent.getClientCpf(), occupationPresent.getCar(), occupationPresent.getHourEntry(), occupationPresent.getHourExit(), occupationPresent.getPrice());
+                    occupationDtoList.add(occupationDto);
+                }
+            });
+
+        }
+        return occupationDtoList;
     }
 
 
