@@ -35,9 +35,8 @@ public class IndexController {
     }
 
     @GetMapping("/listParkingSpace")
-    public List<Occupation> listParkingSpace() {
-        List<Occupation> occupations = parkingSpaceService.listAllOccupation();
-        return parkingSpaceService.listAllOccupation();
+    public List<ParkingSpace> listParkingSpace() {
+        return parkingSpaceRespository.findAll();
     }
 
     @GetMapping("/listParkingSpaceAvailable")
