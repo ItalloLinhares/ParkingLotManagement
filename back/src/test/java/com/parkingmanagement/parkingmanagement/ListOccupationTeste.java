@@ -49,13 +49,13 @@ public class ListOccupationTeste {
 
     @Test
     public void listOccupationByLicensePlate(){
-        OccupationDto occupation1 = new OccupationDto(Long.valueOf(1), Long.valueOf(123), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(13, 0), LocalTime.of(15, 0), 120);
+        Occupation occupation1 = new Occupation(Long.valueOf(1), Long.valueOf(123), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(13, 0), LocalTime.of(15, 0), 120);
 
-        List<OccupationDto> listOccuparionByLicensePlateActual = new ArrayList<OccupationDto>();
+        List<Occupation> listOccuparionByLicensePlateActual = new ArrayList<Occupation>();
         listOccuparionByLicensePlateActual.add(occupation1);
 
 
-        List<OccupationDto> listOccupationByLicensePlateExpected = parkingSpaceService.listOccupationByLicensePlate("abc-1234");
+        List<com.parkingmanagement.parkingmanagement.model.Occupation> listOccupationByLicensePlateExpected = parkingSpaceService.listOccupationByLicensePlate("abc-1234");
 
         Assertions.assertEquals(listOccupationByLicensePlateExpected, listOccuparionByLicensePlateActual);
     }
@@ -63,12 +63,12 @@ public class ListOccupationTeste {
     @Test
     public void listOccupationByCpf(){
         //OccupationDto occupation2 = new OccupationDto(Long.valueOf(2), Long.valueOf(789), new Car("xyz-6789", "Renault Sandero 2015"), LocalTime.of(9, 0), LocalTime.of(10, 0), 60);
-        Occupation occupation2 = new Occupation(Long.valueOf(2), Long.valueOf(789), new Car("xyz-6789", "Renault Sandero 2015"), LocalTime.of(9, 0), LocalTime.of(10, 0), 60);
-        List<Occupation> listOccupationByCpfActual = new ArrayList<Occupation>();
+        com.parkingmanagement.parkingmanagement.model.Occupation occupation2 = new com.parkingmanagement.parkingmanagement.model.Occupation(Long.valueOf(2), Long.valueOf(789), new Car("xyz-6789", "Renault Sandero 2015"), LocalTime.of(9, 0), LocalTime.of(10, 0), 60);
+        List<com.parkingmanagement.parkingmanagement.model.Occupation> listOccupationByCpfActual = new ArrayList<com.parkingmanagement.parkingmanagement.model.Occupation>();
         listOccupationByCpfActual.add(occupation2);
 
 
-        List<Occupation> listOccupationByCpfExpected = parkingSpaceService.listOccupationByCpf(Long.valueOf(789));
+        List<OccupationDto> listOccupationByCpfExpected = parkingSpaceService.listOccupationByCpf(Long.valueOf(789));
 
         Assertions.assertEquals(listOccupationByCpfExpected, listOccupationByCpfActual);
     }

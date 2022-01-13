@@ -34,7 +34,7 @@ public class FillParkingSpaceTest {
         }
 
         @Test
-        public void fillParkingSpaceTest(){
+        public void ShouldFillParkingSpaceServiceTest(){
             ParkingSpace parkingSpaceActual = new ParkingSpace(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), ParkingSpaceStatus.UNAVAILABLE, LocalTime.of(13, 0));
             FillParkingSpaceDto fillParkingSpaceDTO = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), ParkingSpaceStatus.UNAVAILABLE, LocalTime.of(13, 0));
 

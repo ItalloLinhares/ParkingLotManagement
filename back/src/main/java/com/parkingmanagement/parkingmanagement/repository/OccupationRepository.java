@@ -10,8 +10,12 @@ import java.util.List;
 
 @Repository
 public interface OccupationRepository extends JpaRepository<Occupation, Long> {
-    @Query("SELECT o FROM Occupation o WHERE o.clientCpf = :cpf")
-    List<Occupation> findAllbyCPF(@Param("cpf") Long cpf);
+//    @Query("SELECT o FROM Occupation o WHERE o.clientCpf = :cpf")
+//    List<Occupation> findAllbyCPF(@Param("cpf") Long cpf);
+//
+//    @Query("SELECT o FROM Occupation o WHERE o.car.licensePlate = :licensePlate")
+//    List<Occupation> findAllbyLicensePlate(@Param("licensePlate") String licensePlate);
+
 
 
 }

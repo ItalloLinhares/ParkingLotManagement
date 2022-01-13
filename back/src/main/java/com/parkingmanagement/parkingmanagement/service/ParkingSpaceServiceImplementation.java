@@ -8,9 +8,7 @@ import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
-import com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,10 +77,10 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     }
 
     @Override
-    public Occupation vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
+    public com.parkingmanagement.parkingmanagement.model.Occupation vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
         Optional<ParkingSpace> parkingSpaceFilled = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
         if(parkingSpaceFilled.isPresent()){
-            Occupation occupation = new Occupation();
+            com.parkingmanagement.parkingmanagement.model.Occupation occupation = new com.parkingmanagement.parkingmanagement.model.Occupation();
             occupation.setCar(parkingSpaceFilled.get().getCar());
             occupation.setClientCpf(parkingSpaceFilled.get().getClientCpf());
             occupation.setHourEntry(parkingSpaceFilled.get().getHourEntry());
@@ -129,7 +127,7 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     }
 
     @Override
-    public List<Occupation> listAllOccupation() {
+    public List<com.parkingmanagement.parkingmanagement.model.Occupation> listAllOccupation() {
         return occupationRepository.findAll();
     }
 
@@ -137,7 +135,7 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public OccupationDto listOccupationById(Long id) {
         Long n = occupationRepository.count();
         for (int i = 1; i <= n; i++){
-            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
+            Optional<com.parkingmanagement.parkingmanagement.model.Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
             if(occupation.get().getId() == id){
                 OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
                 return occupationDto;
@@ -146,36 +144,38 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
         return null;
     }
 
+//    @Override
+//    public List<com.parkingmanagement.parkingmanagement.model.Occupation> listOccupationByLicensePlate(String licensePlate) {
+//        return occupationRepository.findAllbyLicensePlate(licensePlate);
+////        Long n = occupationRepository.count();
+////        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
+////        for (int i = 1; i <= n; i++){
+////            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
+////            if(occupation.get().getCar().getCarLicensePlate() == licensePlate){
+////                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
+////                occupationDtoList.add(occupationDto);
+////            }
+////        }
+////        return occupationDtoList;
+//}
+
     @Override
-    public List<OccupationDto> listOccupationByLicensePlate(String licensePlate) {
+    public List<OccupationDto> listOccupationByCpf(Long cpf) {
+        //List<OccupationDto> = occupationRepository.findAll();
         Long n = occupationRepository.count();
         List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
         for (int i = 1; i <= n; i++){
+
             Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
-            if(occupation.get().getCar().getCarLicensePlate() == licensePlate){
-                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
-                occupationDtoList.add(occupationDto);
-            }
+            occupation.ifPresent(occupationPresent -> {
+                if(occupationPresent.getClientCpf() == cpf){
+                    OccupationDto occupationDto = new OccupationDto(occupationPresent.getId(), occupationPresent.getClientCpf(), occupationPresent.getCar(), occupationPresent.getHourEntry(), occupationPresent.getHourExit(), occupationPresent.getPrice());
+                    occupationDtoList.add(occupationDto);
+                }
+            });
+
         }
         return occupationDtoList;
-    }
-
-    @Override
-    public List<Occupation> listOccupationByCpf(Long cpf) {
-        return occupationRepository.findAllbyCPF(cpf);
-//        Long n = occupationRepository.count();
-//        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
-//        for (int i = 1; i <= n; i++){
-//            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
-//            occupation.ifPresent(occupationPresent -> {
-//                if(occupationPresent.getClientCpf() == cpf){
-//                    OccupationDto occupationDto = new OccupationDto(occupationPresent.getId(), occupationPresent.getClientCpf(), occupationPresent.getCar(), occupationPresent.getHourEntry(), occupationPresent.getHourExit(), occupationPresent.getPrice());
-//                    occupationDtoList.add(occupationDto);
-//                }
-//            });
-//
-//        }
-//        return occupationDtoList;
     }
 
 

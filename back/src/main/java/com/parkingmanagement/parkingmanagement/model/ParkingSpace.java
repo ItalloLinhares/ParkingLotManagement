@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.lang.annotation.Annotation;
 import java.time.LocalTime;
 
 @Data @Entity @AllArgsConstructor @NoArgsConstructor
-public class ParkingSpace {
+public class ParkingSpace{
     @Id
     private Long id;
     @OneToOne
