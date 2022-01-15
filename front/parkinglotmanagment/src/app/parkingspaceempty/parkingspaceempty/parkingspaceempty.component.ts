@@ -13,8 +13,9 @@ import { ParkingSpace } from '../model/parkingspacemodel';
 })
 export class ParkingspaceemptyComponent implements OnInit {
 
-  parkingspaceempty: Observable<ParkingSpace[]>
+  parkingspaceempty: Observable<ParkingSpace[]>;
 
+  displayedColumns = ['id'];
   constructor(private dataService: DataService) { 
     this.parkingspaceempty = this.dataService.list();
   }

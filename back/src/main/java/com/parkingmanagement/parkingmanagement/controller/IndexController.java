@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@RestController @AllArgsConstructor @RequestMapping("/management") @Transactional
+@RestController @AllArgsConstructor @RequestMapping("/api") @Transactional
 public class IndexController {
     private final ParkingSpaceService parkingSpaceService;
     private final ParkingSpaceRespository parkingSpaceRespository;

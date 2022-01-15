@@ -1,14 +1,10 @@
-<div class="container">
-  <table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-      <th>ID</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let parking in parkingspaceempty">
-      <td><span>{{parking.id}}</span></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<table mat-table [dataSource]="parkingspaceempty" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Vagas Disponíveis</th>
+    <td mat-cell *matCellDef="let parkingspaceempty">{{ parkingspaceempty.id }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

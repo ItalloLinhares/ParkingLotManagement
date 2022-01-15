@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ParkingspaceemptyRoutingModule } from './parkingspaceempty-routing.module';
 import { ParkingspaceemptyComponent } from './parkingspaceempty/parkingspaceempty.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -13,6 +14,7 @@ import { ParkingspaceemptyComponent } from './parkingspaceempty/parkingspaceempt
   imports: [
     CommonModule,
     ParkingspaceemptyRoutingModule,
+    MatTableModule
   ]
 })
 export class ParkingspaceemptyModule { }

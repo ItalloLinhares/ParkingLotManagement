@@ -10,16 +10,11 @@ export class DataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private listParkingSpaceAvailable = 'http://localhost:8080/management/listParkingSpaceAvailable';
+  private listParkingSpaceAvailable = '/api/listParkingSpaceAvailable';
 
 
   public list(){
-    
-    this.httpClient.get<ParkingSpace[]>(this.listParkingSpaceAvailable).subscribe(
-      response => {
-        console.log(response);
-      }
-    );
+    console.log(this.httpClient.get(this.listParkingSpaceAvailable));
     return this.httpClient.get<ParkingSpace[]>(this.listParkingSpaceAvailable)
   }
 }

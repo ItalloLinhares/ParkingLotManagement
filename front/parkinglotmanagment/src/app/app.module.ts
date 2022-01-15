@@ -5,6 +5,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ParkingspaceemptyModule } from './parkingspaceempty/parkingspaceempty.module';
+import {MatTableModule} from '@angular/material/table';
+
 
 
 @NgModule({
@@ -16,7 +18,8 @@ import { ParkingspaceemptyModule } from './parkingspaceempty/parkingspaceempty.m
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ParkingspaceemptyModule
+    ParkingspaceemptyModule,
+    MatTableModule
    
   ],
   providers: [],
