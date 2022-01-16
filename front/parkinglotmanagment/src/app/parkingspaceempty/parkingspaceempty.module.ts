@@ -1,9 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 import { ParkingspaceemptyRoutingModule } from './parkingspaceempty-routing.module';
 import { ParkingspaceemptyComponent } from './parkingspaceempty/parkingspaceempty.component';
-import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 
 
@@ -14,7 +17,9 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     CommonModule,
     ParkingspaceemptyRoutingModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule,
+    MatPaginatorModule
   ]
 })
 export class ParkingspaceemptyModule { }

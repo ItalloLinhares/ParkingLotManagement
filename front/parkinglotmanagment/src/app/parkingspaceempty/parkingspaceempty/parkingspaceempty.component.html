@@ -1,10 +1,19 @@
-<table mat-table [dataSource]="parkingspaceempty" class="mat-elevation-z8">
-
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>Vagas Disponíveis</th>
-    <td mat-cell *matCellDef="let parkingspaceempty">{{ parkingspaceempty.id }}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+<mat-card>
+  <div>
+    <table mat-table [dataSource]="parkingspaceempty" class="mat-elevation-z8">
+  
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Vagas Disponíveis</th>
+        <td mat-cell *matCellDef="let parkingspaceempty">{{ parkingspaceempty.id }}</td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons 
+    aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+    
+</mat-card>
