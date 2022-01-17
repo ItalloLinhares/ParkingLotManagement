@@ -6,9 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { ParkingspaceemptyRoutingModule } from './parkingspaceempty-routing.module';
 import { ParkingspaceemptyComponent } from './parkingspaceempty/parkingspaceempty.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
-
-
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -19,7 +17,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ParkingspaceemptyRoutingModule,
     MatTableModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgxPaginationModule
   ]
 })
 export class ParkingspaceemptyModule { }

@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { ParkingSpace } from '../model/parkingspacemodel';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-
-
+import { MatTableDataSource } from '@angular/material/table';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @Component({
@@ -18,18 +18,11 @@ export class ParkingspaceemptyComponent implements OnInit {
 
   parkingspaceempty: Observable<ParkingSpace[]>;
 
-  //@ViewChild(MatPaginator) paginator: MatPaginator;
-  
-
-
   displayedColumns = ['id'];
   constructor(private dataService: DataService) { 
     this.parkingspaceempty = this.dataService.list();
   }
 
   ngOnInit(): void {
-    //this.parkingspaceempty = this.paginator;
   }
-
-
 }

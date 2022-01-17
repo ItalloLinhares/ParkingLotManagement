@@ -36,11 +36,11 @@ public class IndexController {
 
     @GetMapping("/listParkingSpace")
     public List<ParkingSpace> listParkingSpace() {
-        return parkingSpaceRespository.findAll();
+        return null;
     }
 
     @GetMapping("/listParkingSpaceAvailable")
-    public List<EmptyParkingSpaceDto> listParkingSpaceEmpty() {
+    public ResponseEntity listParkingSpaceEmpty() {
         return parkingSpaceService.listParkingSpaceEmpty();
     }
 

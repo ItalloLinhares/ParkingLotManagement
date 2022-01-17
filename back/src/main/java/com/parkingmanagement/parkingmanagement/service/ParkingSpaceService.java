@@ -5,6 +5,7 @@ import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.dto.OccupationDto;
 import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ParkingSpaceService {
     public ParkingSpace fillParkingSpace(FillParkingSpaceDto fillParkingSpaceDTO);
     public com.parkingmanagement.parkingmanagement.model.Occupation vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto);
     public List<FillParkingSpaceDto> listParkingSpaceFilled();
-    public List<EmptyParkingSpaceDto> listParkingSpaceEmpty();
+    public ResponseEntity listParkingSpaceEmpty();
     public List<ParkingSpace> listParkingSpace();
     public List<com.parkingmanagement.parkingmanagement.model.Occupation> listAllOccupation();
     public OccupationDto listOccupationById(Long id);

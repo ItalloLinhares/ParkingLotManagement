@@ -9,8 +9,11 @@ import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,28 +105,38 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     }
 
     @Override
-    public List<EmptyParkingSpaceDto> listParkingSpaceEmpty() {
-        Long totalParkingSpaces = parkingSpaceRespository.count();
-        List<EmptyParkingSpaceDto> listParkingSpaceAvailable = new ArrayList<EmptyParkingSpaceDto>();
-        for (int i = 1; i <= totalParkingSpaces; i++){
-            Optional<ParkingSpace> parkingSpace = parkingSpaceRespository.findById(Long.valueOf(i));
-            if (parkingSpace.get().getParkingSpaceStatus() == AVAILABLE){
-                parkingSpace.ifPresent(new Consumer<ParkingSpace>() {
-                    @Override
-                    public void accept(ParkingSpace parkingSpace) {
-                        EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto();
-                        parkingSpaceAvailable.setId(parkingSpace.getId());
-                        listParkingSpaceAvailable.add(parkingSpaceAvailable);
-                    }
-                });
-            }
+    public ResponseEntity listParkingSpaceEmpty() {
+        List<ParkingSpace> listParkingSpaceAvailable = parkingSpaceRespository.findParkingSpaceAvailable(AVAILABLE);
+        if (listParkingSpaceAvailable.size() == 0) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+        List<EmptyParkingSpaceDto> emptyParkingSpaceslist = new ArrayList<EmptyParkingSpaceDto>();
+        for(int i = 0; i < listParkingSpaceAvailable.size(); i++){
+            EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto();
+            parkingSpaceAvailable.setId(listParkingSpaceAvailable.get(i).getId());
+            emptyParkingSpaceslist.add(parkingSpaceAvailable);
         }
-        return listParkingSpaceAvailable;
+        return ResponseEntity.ok(emptyParkingSpaceslist);
+
+//        Long totalParkingSpaces = parkingSpaceRespository.count();
+//        List<EmptyParkingSpaceDto> listParkingSpaceAvailable = new ArrayList<EmptyParkingSpaceDto>();
+//        for (int i = 1; i <= totalParkingSpaces; i++){
+//            Optional<ParkingSpace> parkingSpace = parkingSpaceRespository.findById(Long.valueOf(i));
+//            if (parkingSpace.get().getParkingSpaceStatus() == AVAILABLE){
+//                parkingSpace.ifPresent(new Consumer<ParkingSpace>() {
+//                    @Override
+//                    public void accept(ParkingSpace parkingSpace) {
+//                        EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto();
+//                        parkingSpaceAvailable.setId(parkingSpace.getId());
+//                        listParkingSpaceAvailable.add(parkingSpaceAvailable);
+//                    }
+//                });
+//            }
+//        }
+//        return ResponseEntity.ok(listParkingSpaceAvailable);
     }
 
     @Override
     public List<ParkingSpace> listParkingSpace() {
-        return parkingSpaceRespository.findAll();
+        return null;
     }
 
     @Override
