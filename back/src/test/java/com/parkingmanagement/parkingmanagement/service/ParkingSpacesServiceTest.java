@@ -28,7 +28,6 @@ import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.
 
 @RunWith(SpringRunner.class)
 public class ParkingSpacesServiceTest {
-
     @InjectMocks
     ParkingSpaceServiceImplementation parkingSpaceService;
 
@@ -38,36 +37,34 @@ public class ParkingSpacesServiceTest {
     @Mock
     OccupationRepository occupationRepository;
 
-    @Test
-    public void itShouldReturnOnlyAvailableParkingSpaces(){
-        //Given
-        ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);
-        ParkingSpace parkingSpace2 = new ParkingSpace(Long.valueOf(2), null , null, AVAILABLE, null);
-
-        List<ParkingSpace> listParkingSpaceAvailable = new ArrayList<>();
-
-        listParkingSpaceAvailable.add(parkingSpace1);
-        listParkingSpaceAvailable.add(parkingSpace2);
-
-        Mockito.when(parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE)).thenReturn(listParkingSpaceAvailable);
-
-        EmptyParkingSpaceDto emptyParkingSpaceDto1 = new EmptyParkingSpaceDto(Long.valueOf(1));
-        EmptyParkingSpaceDto emptyParkingSpaceDto2 = new EmptyParkingSpaceDto(Long.valueOf(2));
-
-        List<EmptyParkingSpaceDto> listParkingSpaceAvailableExpected = new ArrayList<>();
-        listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto1);
-        listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto2);
-
-        //When
-        ResponseEntity listParkingSpaceAvailableActual = parkingSpaceService.listParkingSpaceEmpty();
-
-        //Then
-        Assert.assertEquals( listParkingSpaceAvailableActual.getBody(), ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody());
-    }
-
     @Nested
     class ShouldListParkingSpacesByStatus{
+        @Test
+        public void itShouldReturnOnlyAvailableParkingSpaces(){
+            //Given
+            ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);
+            ParkingSpace parkingSpace2 = new ParkingSpace(Long.valueOf(2), null , null, AVAILABLE, null);
 
+            List<ParkingSpace> listParkingSpaceAvailable = new ArrayList<>();
+
+            listParkingSpaceAvailable.add(parkingSpace1);
+            listParkingSpaceAvailable.add(parkingSpace2);
+
+            Mockito.when(parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE)).thenReturn(listParkingSpaceAvailable);
+
+            EmptyParkingSpaceDto emptyParkingSpaceDto1 = new EmptyParkingSpaceDto(Long.valueOf(1));
+            EmptyParkingSpaceDto emptyParkingSpaceDto2 = new EmptyParkingSpaceDto(Long.valueOf(2));
+
+            List<EmptyParkingSpaceDto> listParkingSpaceAvailableExpected = new ArrayList<>();
+            listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto1);
+            listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto2);
+
+            //When
+            ResponseEntity listParkingSpaceAvailableActual = parkingSpaceService.listParkingSpaceEmpty();
+
+            //Then
+            Assert.assertEquals( listParkingSpaceAvailableActual.getBody(), ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody());
+        }
 
     }
 }
