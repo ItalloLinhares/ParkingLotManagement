@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class ParkingSpaceRepositoryTest {
         //Given
         Car car = new Car("abc-1234", "Honda Civic 2009");
         carRepository.save(car);
-        ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), car, Long.valueOf(123), ParkingSpaceStatus.UNAVAILABLE, LocalTime.of(13, 0));
+        ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), car, Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
         ParkingSpace parkingSpace2 = new ParkingSpace(Long.valueOf(2), null, null, AVAILABLE, null);
         ParkingSpace parkingSpace3 = new ParkingSpace(Long.valueOf(3), null , null, AVAILABLE, null);
 
@@ -89,7 +90,6 @@ public class ParkingSpaceRepositoryTest {
 
         //Then
         Assertions.assertEquals(parkingSpaceListAvailableActual, parkingSpaceListAvailableExpected);
-
     }
 
 
