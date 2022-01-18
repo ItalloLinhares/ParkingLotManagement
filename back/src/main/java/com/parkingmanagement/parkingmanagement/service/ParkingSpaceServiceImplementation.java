@@ -40,40 +40,36 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     }
 
     @Override
+    public ResponseEntity listParkingSpace() {
+
+        return ResponseEntity.ok(parkingSpaceRespository.findAll());
+    }
+
+    @Override
     public ResponseEntity listParkingSpaceEmpty() {
         List<ParkingSpace> listParkingSpaceAvailable = parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE);
+
         if (listParkingSpaceAvailable.size() == 0) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+
         List<EmptyParkingSpaceDto> emptyParkingSpaceslist = new ArrayList<EmptyParkingSpaceDto>();
+
         for(int i = 0; i < listParkingSpaceAvailable.size(); i++){
             EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto();
             parkingSpaceAvailable.setId(listParkingSpaceAvailable.get(i).getId());
             emptyParkingSpaceslist.add(parkingSpaceAvailable);
         }
-        return ResponseEntity.ok(emptyParkingSpaceslist);
 
-//        Long totalParkingSpaces = parkingSpaceRespository.count();
-//        List<EmptyParkingSpaceDto> listParkingSpaceAvailable = new ArrayList<EmptyParkingSpaceDto>();
-//        for (int i = 1; i <= totalParkingSpaces; i++){
-//            Optional<ParkingSpace> parkingSpace = parkingSpaceRespository.findById(Long.valueOf(i));
-//            if (parkingSpace.get().getParkingSpaceStatus() == AVAILABLE){
-//                parkingSpace.ifPresent(new Consumer<ParkingSpace>() {
-//                    @Override
-//                    public void accept(ParkingSpace parkingSpace) {
-//                        EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto();
-//                        parkingSpaceAvailable.setId(parkingSpace.getId());
-//                        listParkingSpaceAvailable.add(parkingSpaceAvailable);
-//                    }
-//                });
-//            }
-//        }
-//        return ResponseEntity.ok(listParkingSpaceAvailable);
+        return ResponseEntity.ok(emptyParkingSpaceslist);
     }
 
     @Override
     public ResponseEntity listParkingSpaceFilled() {
         List<ParkingSpace> listParkingSpaceUnavailable = parkingSpaceRespository.findParkingSpacebyStatus(UNAVAILABLE);
+
         if (listParkingSpaceUnavailable.size() == 0) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+
         List<FillParkingSpaceDto> filledParkingSpaceslist = new ArrayList<FillParkingSpaceDto>();
+
         for(int i = 0; i < listParkingSpaceUnavailable.size(); i++){
             FillParkingSpaceDto parkingSpaceFilled = new FillParkingSpaceDto();
             parkingSpaceFilled.setId(listParkingSpaceUnavailable.get(i).getId());
@@ -83,77 +79,63 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
             parkingSpaceFilled.setHourEntry(listParkingSpaceUnavailable.get(i).getHourEntry());
             filledParkingSpaceslist.add(parkingSpaceFilled);
         }
+
         return ResponseEntity.ok(filledParkingSpaceslist);
-
-//        Long totalParkingSpaces = parkingSpaceRespository.count();
-//        List<FillParkingSpaceDto> listParkingSpaceUnvailable = new ArrayList<FillParkingSpaceDto>();
-//        for (int i = 1; i <= totalParkingSpaces; i++){
-//            Optional<ParkingSpace> parkingSpace = parkingSpaceRespository.findById(Long.valueOf(i));
-//            if (parkingSpace.get().getParkingSpaceStatus() == UNAVAILABLE){
-//                parkingSpace.ifPresent(parkingSpacePresent -> {
-//                    FillParkingSpaceDto parkingSpaceFilled = new FillParkingSpaceDto();
-//                    parkingSpaceFilled.setId(parkingSpacePresent.getId());
-//                    parkingSpaceFilled.setParkingSpaceStatus(parkingSpacePresent.getParkingSpaceStatus());
-//                    parkingSpaceFilled.setClientCpf(parkingSpacePresent.getClientCpf());
-//                    parkingSpaceFilled.setCar(parkingSpacePresent.getCar());
-//                    parkingSpaceFilled.setHourEntry(parkingSpacePresent.getHourEntry());
-//                    listParkingSpaceUnvailable.add(parkingSpaceFilled);
-//                });
-//            }
-//        }
-//        return listParkingSpaceUnvailable;
     }
 
 
     @Override
-    public ParkingSpace fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
-        Optional<ParkingSpace> parkingSpaceid = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
-        if(parkingSpaceid.isPresent()){
-            ParkingSpace parkingSpaceUpdated = new ParkingSpace();
-            parkingSpaceUpdated.setId(parkingSpaceFilled.getId());
-            parkingSpaceUpdated.setCar(parkingSpaceFilled.getCar());
-            parkingSpaceUpdated.setClientCpf(parkingSpaceFilled.getClientCpf());
-            parkingSpaceUpdated.setHourEntry(parkingSpaceFilled.getHourEntry());
-            parkingSpaceUpdated.setParkingSpaceStatus(parkingSpaceFilled.getParkingSpaceStatus());
-            parkingSpaceRespository.save(parkingSpaceUpdated);
-            return parkingSpaceUpdated;
-        }
-        else {
-            return null;
-        }
+    public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
+        Optional<ParkingSpace> parkingSpaceToBeFilled = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
+
+        if (!parkingSpaceToBeFilled.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+        if (parkingSpaceToBeFilled.get().getParkingSpaceStatus() != AVAILABLE) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already used"); }
+
+        ParkingSpace parkingSpaceUpdated = new ParkingSpace();
+        parkingSpaceUpdated.setId(parkingSpaceFilled.getId());
+        parkingSpaceUpdated.setCar(parkingSpaceFilled.getCar());
+        parkingSpaceUpdated.setClientCpf(parkingSpaceFilled.getClientCpf());
+        parkingSpaceUpdated.setHourEntry(parkingSpaceFilled.getHourEntry());
+        parkingSpaceUpdated.setParkingSpaceStatus(parkingSpaceFilled.getParkingSpaceStatus());
+        parkingSpaceRespository.save(parkingSpaceUpdated);
+
+        return ResponseEntity.ok(parkingSpaceUpdated);
     }
 
     @Override
-    public com.parkingmanagement.parkingmanagement.model.Occupation vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
-        Optional<ParkingSpace> parkingSpaceFilled = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
-        if(parkingSpaceFilled.isPresent()){
-            com.parkingmanagement.parkingmanagement.model.Occupation occupation = new com.parkingmanagement.parkingmanagement.model.Occupation();
-            occupation.setCar(parkingSpaceFilled.get().getCar());
-            occupation.setClientCpf(parkingSpaceFilled.get().getClientCpf());
-            occupation.setHourEntry(parkingSpaceFilled.get().getHourEntry());
-            occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
-            float price = ((vacateParkingSpaceDto.getHourExity().getHour() - parkingSpaceFilled.get().getHourEntry().getHour())*60) +
-                    vacateParkingSpaceDto.getHourExity().getMinute() - parkingSpaceFilled.get().getHourEntry().getMinute();
-            occupation.setPrice(price);
-            occupationRepository.save(occupation);
+    public ResponseEntity vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
 
-            ParkingSpace parkingSpaceUpdated = new ParkingSpace();
-            parkingSpaceUpdated.setId(vacateParkingSpaceDto.getId());
-            parkingSpaceUpdated.setParkingSpaceStatus(AVAILABLE);
-            parkingSpaceRespository.save(parkingSpaceUpdated);
-            return occupation;
-        }
-        else {
-            return null;
-        }
-    }
+        Optional<ParkingSpace> parkingSpaceToBeEmpty = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
 
+        if (!parkingSpaceToBeEmpty.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+        if (parkingSpaceToBeEmpty.get().getParkingSpaceStatus() != UNAVAILABLE) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already empty"); }
+        int n = parkingSpaceToBeEmpty.get().getHourEntry().compareTo(vacateParkingSpaceDto.getHourExity());
+        if (n >= 0) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time"); }
 
+        float price = ((vacateParkingSpaceDto.getHourExity().getHour() - parkingSpaceToBeEmpty.get().getHourEntry().getHour())*60) +
+                vacateParkingSpaceDto.getHourExity().getMinute() - parkingSpaceToBeEmpty.get().getHourEntry().getMinute();
 
-    @Override
-    public List<ParkingSpace> listParkingSpace() {
+        Occupation occupation = new Occupation();
+        occupation.setCar(parkingSpaceToBeEmpty.get().getCar());
+        occupation.setClientCpf(parkingSpaceToBeEmpty.get().getClientCpf());
+        occupation.setHourEntry(parkingSpaceToBeEmpty.get().getHourEntry());
+        occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
+
+        occupation.setPrice(price);
+        occupationRepository.save(occupation);
+
+        ParkingSpace parkingSpaceUpdated = new ParkingSpace();
+        parkingSpaceUpdated.setId(vacateParkingSpaceDto.getId());
+        parkingSpaceUpdated.setParkingSpaceStatus(AVAILABLE);
+        parkingSpaceRespository.save(parkingSpaceUpdated);
+
         return null;
+
     }
+
+
+
+
 
     @Override
     public List<com.parkingmanagement.parkingmanagement.model.Occupation> listAllOccupation() {

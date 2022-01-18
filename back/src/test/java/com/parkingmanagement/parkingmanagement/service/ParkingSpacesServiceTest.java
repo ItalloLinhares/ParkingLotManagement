@@ -1,6 +1,7 @@
 package com.parkingmanagement.parkingmanagement.service;
 
 import com.parkingmanagement.parkingmanagement.dto.EmptyParkingSpaceDto;
+import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Car;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
@@ -18,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.UNAVAILABLE;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalTime;
@@ -37,34 +40,59 @@ public class ParkingSpacesServiceTest {
     @Mock
     OccupationRepository occupationRepository;
 
-    @Nested
-    class ShouldListParkingSpacesByStatus{
-        @Test
-        public void itShouldReturnOnlyAvailableParkingSpaces(){
-            //Given
-            ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);
-            ParkingSpace parkingSpace2 = new ParkingSpace(Long.valueOf(2), null , null, AVAILABLE, null);
+    @Test
+    public void itShouldReturnOnlyAvailableParkingSpaces(){
+        //Given
+        ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);
+        ParkingSpace parkingSpace2 = new ParkingSpace(Long.valueOf(2), null , null, AVAILABLE, null);
 
-            List<ParkingSpace> listParkingSpaceAvailable = new ArrayList<>();
+        List<ParkingSpace> listParkingSpaceAvailable = new ArrayList<>();
 
-            listParkingSpaceAvailable.add(parkingSpace1);
-            listParkingSpaceAvailable.add(parkingSpace2);
+        listParkingSpaceAvailable.add(parkingSpace1);
+        listParkingSpaceAvailable.add(parkingSpace2);
 
-            Mockito.when(parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE)).thenReturn(listParkingSpaceAvailable);
+        Mockito.when(parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE)).thenReturn(listParkingSpaceAvailable);
 
-            EmptyParkingSpaceDto emptyParkingSpaceDto1 = new EmptyParkingSpaceDto(Long.valueOf(1));
-            EmptyParkingSpaceDto emptyParkingSpaceDto2 = new EmptyParkingSpaceDto(Long.valueOf(2));
+        EmptyParkingSpaceDto emptyParkingSpaceDto1 = new EmptyParkingSpaceDto(Long.valueOf(1));
+        EmptyParkingSpaceDto emptyParkingSpaceDto2 = new EmptyParkingSpaceDto(Long.valueOf(2));
 
-            List<EmptyParkingSpaceDto> listParkingSpaceAvailableExpected = new ArrayList<>();
-            listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto1);
-            listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto2);
+        List<EmptyParkingSpaceDto> listParkingSpaceAvailableExpected = new ArrayList<>();
+        listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto1);
+        listParkingSpaceAvailableExpected.add(emptyParkingSpaceDto2);
 
-            //When
-            ResponseEntity listParkingSpaceAvailableActual = parkingSpaceService.listParkingSpaceEmpty();
+        //When
+        ResponseEntity listParkingSpaceAvailableActual = parkingSpaceService.listParkingSpaceEmpty();
 
-            //Then
-            Assert.assertEquals( listParkingSpaceAvailableActual.getBody(), ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody());
-        }
-
+        //Then
+        Assert.assertEquals( listParkingSpaceAvailableActual.getBody(), ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody());
     }
+
+    @Test
+    public void itShouldReturnOnlyUnavailableParkingSpaces(){
+        //Given
+
+        ParkingSpace parkingSpace1 = new ParkingSpace(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
+        ParkingSpace parkingSpace2 = new ParkingSpace(Long.valueOf(2), new Car("xyz-6789", "Renault Sandero 2010"), Long.valueOf(789), UNAVAILABLE, LocalTime.of(15, 0));
+
+        List<ParkingSpace> listParkingSpaceUnavailable = new ArrayList<>();
+
+        listParkingSpaceUnavailable.add(parkingSpace1);
+        listParkingSpaceUnavailable.add(parkingSpace2);
+
+        Mockito.when(parkingSpaceRespository.findParkingSpacebyStatus(UNAVAILABLE)).thenReturn(listParkingSpaceUnavailable);
+
+        FillParkingSpaceDto filledParkingSpaceDto1 = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
+        FillParkingSpaceDto filledParkingSpaceDto2 = new FillParkingSpaceDto(Long.valueOf(2), new Car("xyz-6789", "Renault Sandero 2010"), Long.valueOf(789), UNAVAILABLE, LocalTime.of(15, 0));
+
+        List<FillParkingSpaceDto> listParkingSpaceUnavailableExpected = new ArrayList<>();
+        listParkingSpaceUnavailableExpected.add(filledParkingSpaceDto1);
+        listParkingSpaceUnavailableExpected.add(filledParkingSpaceDto2);
+
+        //When
+        ResponseEntity listParkingSpaceUnavailableActual = parkingSpaceService.listParkingSpaceFilled();
+
+        //Then
+        Assert.assertEquals( listParkingSpaceUnavailableActual.getBody(), ResponseEntity.ok(listParkingSpaceUnavailableExpected).getBody());
+    }
+
 }

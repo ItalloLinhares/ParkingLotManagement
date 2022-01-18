@@ -10,34 +10,23 @@ import com.parkingmanagement.parkingmanagement.service.ParkingSpaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@RestController @AllArgsConstructor @RequestMapping("/api") @Transactional
+@RestController @RequestMapping("/api") @AllArgsConstructor
 public class IndexController {
     private final ParkingSpaceService parkingSpaceService;
     private final ParkingSpaceRespository parkingSpaceRespository;
 
-
-    @RequestMapping("/create/parkingspaces")
+    @PostMapping("/create/parkingspaces")
     public void createParkingSpaces() {
         parkingSpaceService.createParkingSpace();
     }
 
-    @RequestMapping("/listOccupation")
-    public List<ParkingSpace> listParkingSpace(@RequestBody String findBy){
-        return parkingSpaceService.listParkingSpace();
-    }
-
     @GetMapping("/listParkingSpace")
-    public List<ParkingSpace> listParkingSpace() {
-        return null;
-    }
+    public ResponseEntity listParkingSpace() { return parkingSpaceService.listParkingSpace(); }
 
     @GetMapping("/listParkingSpaceAvailable")
     public ResponseEntity listParkingSpaceEmpty() {
@@ -49,14 +38,19 @@ public class IndexController {
         return parkingSpaceService.listParkingSpaceFilled();
     }
 
-    @RequestMapping("/fillParkingSpace")
-    public ParkingSpace fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
+    @PutMapping("/fillParkingSpace")
+    public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
         return parkingSpaceService.fillParkingSpace(parkingSpaceFilled);
     }
 
-    @RequestMapping("/vacateParkingSpcae")
-    public Occupation vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
+    @PutMapping("/vacateParkingSpace")
+    public ResponseEntity vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
         return parkingSpaceService.vacateParkingSpace(vacateParkingSpaceDto);
+    }
+
+    @GetMapping("/listOccupation")
+    public ResponseEntity listParkingSpace(@RequestBody String findBy){
+        return parkingSpaceService.listParkingSpace();
     }
 
 }
