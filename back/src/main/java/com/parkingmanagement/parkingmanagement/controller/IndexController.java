@@ -45,7 +45,7 @@ public class IndexController {
     }
 
     @GetMapping("/listParkingSpaceUnavailable")
-    public List<FillParkingSpaceDto> listParkingSpaceFilled() {
+    public ResponseEntity listParkingSpaceFilled() {
         return parkingSpaceService.listParkingSpaceFilled();
     }
 

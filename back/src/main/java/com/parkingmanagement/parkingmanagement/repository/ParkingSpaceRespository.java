@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface ParkingSpaceRespository extends PagingAndSortingRepository<ParkingSpace, Long> {
     @Query(value = "SELECT p FROM ParkingSpace p WHERE p.parkingSpaceStatus = :parkingSpaceStatus")
-    List<ParkingSpace> findParkingSpaceAvailable(@Param("parkingSpaceStatus")ParkingSpaceStatus parkingSpaceStatus);
+    List<ParkingSpace> findParkingSpacebyStatus(@Param("parkingSpaceStatus")ParkingSpaceStatus parkingSpaceStatus);
 }

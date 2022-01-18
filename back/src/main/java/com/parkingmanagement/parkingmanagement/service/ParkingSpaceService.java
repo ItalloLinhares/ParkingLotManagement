@@ -12,12 +12,12 @@ import java.util.List;
 public interface ParkingSpaceService {
     public ParkingSpace fillParkingSpace(FillParkingSpaceDto fillParkingSpaceDTO);
     public com.parkingmanagement.parkingmanagement.model.Occupation vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto);
-    public List<FillParkingSpaceDto> listParkingSpaceFilled();
+    public ResponseEntity listParkingSpaceFilled();
     public ResponseEntity listParkingSpaceEmpty();
     public List<ParkingSpace> listParkingSpace();
     public List<com.parkingmanagement.parkingmanagement.model.Occupation> listAllOccupation();
     public OccupationDto listOccupationById(Long id);
-//    public List<com.parkingmanagement.parkingmanagement.model.Occupation> listOccupationByLicensePlate(String licensePlate);
+//  public List<com.parkingmanagement.parkingmanagement.model.Occupation> listOccupationByLicensePlate(String licensePlate);
     public List<OccupationDto> listOccupationByCpf(Long cpf);
     public void createParkingSpace();
 
