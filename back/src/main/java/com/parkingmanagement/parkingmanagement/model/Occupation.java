@@ -21,4 +21,5 @@ public class Occupation {
     private LocalTime hourEntry;
     private LocalTime hourExit;
     private float price;
+
 }

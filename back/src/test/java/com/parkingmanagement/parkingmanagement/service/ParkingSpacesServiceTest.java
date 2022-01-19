@@ -2,7 +2,10 @@ package com.parkingmanagement.parkingmanagement.service;
 
 import com.parkingmanagement.parkingmanagement.dto.EmptyParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
+import com.parkingmanagement.parkingmanagement.dto.OccupationDto;
+import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Car;
+import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
@@ -26,6 +29,7 @@ import static org.junit.Assert.assertThat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.AVAILABLE;
 
@@ -64,7 +68,7 @@ public class ParkingSpacesServiceTest {
         ResponseEntity listParkingSpaceAvailableActual = parkingSpaceService.listParkingSpaceEmpty();
 
         //Then
-        Assert.assertEquals( listParkingSpaceAvailableActual.getBody(), ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody());
+        Assert.assertEquals(ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody(), listParkingSpaceAvailableActual.getBody());
     }
 
     @Test
@@ -92,7 +96,50 @@ public class ParkingSpacesServiceTest {
         ResponseEntity listParkingSpaceUnavailableActual = parkingSpaceService.listParkingSpaceFilled();
 
         //Then
-        Assert.assertEquals( listParkingSpaceUnavailableActual.getBody(), ResponseEntity.ok(listParkingSpaceUnavailableExpected).getBody());
+        Assert.assertEquals(ResponseEntity.ok(listParkingSpaceUnavailableExpected).getBody(), listParkingSpaceUnavailableActual.getBody());
     }
+
+    @Test
+    public void itShouldSaveTheOccupation(){
+        ParkingSpace filledParkingSpace = new ParkingSpace(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
+        ParkingSpace emptyParkingSpaceExpected = new ParkingSpace(Long.valueOf(1), null , null, AVAILABLE, null);
+        VacateParkingSpaceDto vacateParkingSpace = new VacateParkingSpaceDto(Long.valueOf(1), LocalTime.of(15, 0));
+        Occupation occupationExpected = new Occupation(null, Long.valueOf(123), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(13, 0), LocalTime.of(15,0), 120);
+
+        
+        Mockito.when(parkingSpaceRespository.findById(vacateParkingSpace.getId())).thenReturn(Optional.of(filledParkingSpace));
+
+
+        ResponseEntity occupationActual = parkingSpaceService.saveOccupation(vacateParkingSpace);
+
+        Assert.assertEquals(ResponseEntity.ok(occupationExpected).getBody(), occupationActual.getBody());
+    }
+
+    @Test
+    public void itShouldFillParkingSpace(){
+        FillParkingSpaceDto filledParkingSpaceDto = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
+
+        ParkingSpace filledParkingSpaceDtoExpected = new ParkingSpace(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
+        ParkingSpace parkingSpaceAvailable = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);
+        Mockito.when(parkingSpaceRespository.findById(filledParkingSpaceDto.getId())).thenReturn(Optional.of(parkingSpaceAvailable));
+
+
+        ResponseEntity filledParkingSpaceDtoActual = parkingSpaceService.fillParkingSpace(filledParkingSpaceDto);
+
+        Assert.assertEquals(ResponseEntity.ok(filledParkingSpaceDtoExpected).getBody(), filledParkingSpaceDtoActual.getBody());
+    }
+
+    @Test
+    public void itShouldFindOccupationById(){
+        Occupation occupationExpected = new Occupation(Long.valueOf(1), Long.valueOf(123), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(13, 0), LocalTime.of(15,0), 120);
+        Mockito.when(occupationRepository.findById(occupationExpected.getId())).thenReturn(Optional.of(occupationExpected));
+
+        ResponseEntity occupationActual = parkingSpaceService.listOccupationById(occupationExpected.getId());
+
+
+        Assert.assertEquals(ResponseEntity.ok(occupationExpected).getBody(), occupationActual.getBody());
+    }
+
+
 
 }

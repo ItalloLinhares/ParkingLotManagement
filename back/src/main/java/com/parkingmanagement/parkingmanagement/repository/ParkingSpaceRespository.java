@@ -10,8 +10,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.AVAILABLE;
+
 @Repository
 public interface ParkingSpaceRespository extends PagingAndSortingRepository<ParkingSpace, Long> {
     @Query(value = "SELECT p FROM ParkingSpace p WHERE p.parkingSpaceStatus = :parkingSpaceStatus")
     List<ParkingSpace> findParkingSpacebyStatus(@Param("parkingSpaceStatus")ParkingSpaceStatus parkingSpaceStatus);
+
+    default void vacateParkingSpace(Long idVacateParkingSpace){
+        ParkingSpace parkingSpaceUpdated = new ParkingSpace();
+        parkingSpaceUpdated.setId(idVacateParkingSpace);
+        parkingSpaceUpdated.setParkingSpaceStatus(AVAILABLE);
+        this.save(parkingSpaceUpdated);
+    }
 }

@@ -5,6 +5,7 @@ import com.parkingmanagement.parkingmanagement.model.Car;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.AVAILABLE;
 import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.UNAVAILABLE;
@@ -92,5 +94,21 @@ public class ParkingSpaceRepositoryTest {
         Assertions.assertEquals(parkingSpaceListAvailableActual, parkingSpaceListAvailableExpected);
     }
 
+    @Test
+    public void itShouldVacatetheParkingSpaceService(){
+        //Given
+        Car car = new Car("abc-1234", "Honda Civic 2009");
+        carRepository.save(car);
+        ParkingSpace parkingSpaceFilled = new ParkingSpace(Long.valueOf(1), car, Long.valueOf(123), ParkingSpaceStatus.UNAVAILABLE, LocalTime.of(13, 0));
+        ParkingSpace parkingSpaceExpected = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);
+        parkingSpaceRespository.save(parkingSpaceFilled);
+
+        //When
+        parkingSpaceRespository.vacateParkingSpace(parkingSpaceFilled.getId());
+        Optional<ParkingSpace> parkingSpaceActual = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
+
+        //Then
+        Assertions.assertEquals(parkingSpaceExpected, parkingSpaceActual.get());
+    }
 
 }

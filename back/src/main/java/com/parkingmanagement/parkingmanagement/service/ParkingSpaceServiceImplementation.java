@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -103,14 +104,14 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     }
 
     @Override
-    public ResponseEntity vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
-
+    public ResponseEntity saveOccupation(VacateParkingSpaceDto vacateParkingSpaceDto) {
         Optional<ParkingSpace> parkingSpaceToBeEmpty = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
 
-        if (!parkingSpaceToBeEmpty.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+        if (parkingSpaceToBeEmpty.isEmpty()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
         if (parkingSpaceToBeEmpty.get().getParkingSpaceStatus() != UNAVAILABLE) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already empty"); }
-        int n = parkingSpaceToBeEmpty.get().getHourEntry().compareTo(vacateParkingSpaceDto.getHourExity());
-        if (n >= 0) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time"); }
+        int n = vacateParkingSpaceDto.getHourExity().compareTo(parkingSpaceToBeEmpty.get().getHourEntry());
+        if (n <= 0) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time"); }
+
 
         float price = ((vacateParkingSpaceDto.getHourExity().getHour() - parkingSpaceToBeEmpty.get().getHourEntry().getHour())*60) +
                 vacateParkingSpaceDto.getHourExity().getMinute() - parkingSpaceToBeEmpty.get().getHourEntry().getMinute();
@@ -120,74 +121,60 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
         occupation.setClientCpf(parkingSpaceToBeEmpty.get().getClientCpf());
         occupation.setHourEntry(parkingSpaceToBeEmpty.get().getHourEntry());
         occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
-
         occupation.setPrice(price);
+
         occupationRepository.save(occupation);
 
-        ParkingSpace parkingSpaceUpdated = new ParkingSpace();
-        parkingSpaceUpdated.setId(vacateParkingSpaceDto.getId());
-        parkingSpaceUpdated.setParkingSpaceStatus(AVAILABLE);
-        parkingSpaceRespository.save(parkingSpaceUpdated);
+        parkingSpaceRespository.vacateParkingSpace(vacateParkingSpaceDto.getId());
 
-        return null;
+        return ResponseEntity.ok(occupation);
 
     }
 
-
-
-
-
     @Override
-    public List<com.parkingmanagement.parkingmanagement.model.Occupation> listAllOccupation() {
-        return occupationRepository.findAll();
+    public ResponseEntity listAllOccupation() {
+        return ResponseEntity.ok(occupationRepository.findAll());
     }
 
     @Override
-    public OccupationDto listOccupationById(Long id) {
-        Long n = occupationRepository.count();
-        for (int i = 1; i <= n; i++){
-            Optional<com.parkingmanagement.parkingmanagement.model.Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
-            if(occupation.get().getId() == id){
-                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
-                return occupationDto;
-            }
-        }
-        return null;
+    public ResponseEntity listOccupationById(Long idOccupation) {
+        Optional<Occupation> occupation = occupationRepository.findById(idOccupation);
+        if (occupation.isEmpty()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this Id"); }
+
+        return ResponseEntity.ok(occupation.get());
     }
 
-//    @Override
-//    public List<com.parkingmanagement.parkingmanagement.model.Occupation> listOccupationByLicensePlate(String licensePlate) {
-//        return occupationRepository.findAllbyLicensePlate(licensePlate);
-////        Long n = occupationRepository.count();
-////        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
-////        for (int i = 1; i <= n; i++){
-////            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
-////            if(occupation.get().getCar().getCarLicensePlate() == licensePlate){
-////                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
-////                occupationDtoList.add(occupationDto);
-////            }
-////        }
-////        return occupationDtoList;
-//}
-
     @Override
-    public List<OccupationDto> listOccupationByCpf(Long cpf) {
-        //List<OccupationDto> = occupationRepository.findAll();
-        Long n = occupationRepository.count();
+    public ResponseEntity listOccupationByLicensePlate(String licensePlate) {
+        List<Occupation> occupationList = this.occupationRepository.findAll();
         List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
         for (int i = 1; i <= n; i++){
-
-            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
-            occupation.ifPresent(occupationPresent -> {
-                if(occupationPresent.getClientCpf() == cpf){
-                    OccupationDto occupationDto = new OccupationDto(occupationPresent.getId(), occupationPresent.getClientCpf(), occupationPresent.getCar(), occupationPresent.getHourEntry(), occupationPresent.getHourExit(), occupationPresent.getPrice());
-                    occupationDtoList.add(occupationDto);
-                }
-            });
-
+            if(occupation.get().getCar().getCarLicensePlate() == licensePlate){
+                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
+                occupationDtoList.add(occupationDto);
+            }
         }
         return occupationDtoList;
-    }
+}
+
+//    @Override
+//    public List<OccupationDto> listOccupationByCpf(Long cpf) {
+//        //List<OccupationDto> = occupationRepository.findAll();
+//        Long n = occupationRepository.count();
+//        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
+//        for (int i = 1; i <= n; i++){
+//
+//            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
+//            occupation.ifPresent(occupationPresent -> {
+//                if(occupationPresent.getClientCpf() == cpf){
+//                    OccupationDto occupationDto = new OccupationDto(occupationPresent.getId(), occupationPresent.getClientCpf(), occupationPresent.getCar(), occupationPresent.getHourEntry(), occupationPresent.getHourExit(), occupationPresent.getPrice());
+//                    occupationDtoList.add(occupationDto);
+//                }
+//            });
+//
+//        }
+//        return occupationDtoList;
+//    }
 
 
 }

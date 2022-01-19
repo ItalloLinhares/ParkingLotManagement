@@ -9,7 +9,6 @@ import java.time.LocalTime;
 
 @Data @AllArgsConstructor @NoArgsConstructor
 public class OccupationDto {
-    private Long id;
     private Long clientCpf;
     private Car car;
     private LocalTime hourEntry;
