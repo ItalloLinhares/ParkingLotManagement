@@ -29,8 +29,6 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
 
     private final ParkingSpaceRespository parkingSpaceRespository;
 
-    private final OccupationRepository occupationRepository;
-
     @Override
     public void createParkingSpace() {
         for (int id = 1; id <= 25; id++) {
@@ -113,97 +111,4 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
 
         return ResponseEntity.ok(parkingSpaceUpdated);
     }
-
-    @Override
-    public ResponseEntity saveOccupation(VacateParkingSpaceDto vacateParkingSpaceDto) {
-        Optional<ParkingSpace> parkingSpaceToBeEmpty = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
-
-        //Validating the data passed
-        if (parkingSpaceToBeEmpty.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
-        }
-
-        if (parkingSpaceToBeEmpty.get().getParkingSpaceStatus() != UNAVAILABLE) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already empty");
-        }
-
-        int n = vacateParkingSpaceDto.getHourExity().compareTo(parkingSpaceToBeEmpty.get().getHourEntry());
-        if (n <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time");
-        }
-
-
-        float price = ((vacateParkingSpaceDto.getHourExity().getHour() - parkingSpaceToBeEmpty.get().getHourEntry().getHour())*60) +
-                vacateParkingSpaceDto.getHourExity().getMinute() - parkingSpaceToBeEmpty.get().getHourEntry().getMinute();
-
-        Occupation occupation = new Occupation();
-        occupation.setCar(parkingSpaceToBeEmpty.get().getCar());
-        occupation.setClientCpf(parkingSpaceToBeEmpty.get().getClientCpf());
-        occupation.setHourEntry(parkingSpaceToBeEmpty.get().getHourEntry());
-        occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
-        occupation.setPrice(price);
-
-        occupationRepository.save(occupation);
-
-        parkingSpaceRespository.vacateParkingSpace(vacateParkingSpaceDto.getId());
-
-        return ResponseEntity.ok(occupation);
-
-    }
-
-    @Override
-    public ResponseEntity listAllOccupation() {
-        return ResponseEntity.ok(occupationRepository.findAll());
-    }
-
-    @Override
-    public ResponseEntity listOccupationById(Long idOccupation) {
-        Optional<Occupation> occupation = occupationRepository.findById(idOccupation);
-
-        if (occupation.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this Id");
-        }
-
-        return ResponseEntity.ok(occupation.get());
-    }
-
-    @Override
-    public ResponseEntity listOccupationByLicensePlate(String licensePlate) {
-        List<Occupation> occupationList = this.occupationRepository.findAll();
-        List<Occupation> listOccupationByLicensePlate = new ArrayList<>();
-
-
-        for (int i = 0; i < occupationList.size(); i++){
-            if(occupationList.get(i).getCar().getCarLicensePlate() == licensePlate){
-                listOccupationByLicensePlate.add(occupationList.get(i));
-            }
-        }
-
-        if(listOccupationByLicensePlate.size() == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this LicensePlate");
-        }
-
-        return ResponseEntity.ok(listOccupationByLicensePlate);
-}
-
-    @Override
-    public ResponseEntity listOccupationByCpf(Long cpf) {
-
-        List<Occupation> occupationList = this.occupationRepository.findAll();
-        List<Occupation> listOccupationByCpf = new ArrayList<>();
-
-        for (int i = 0; i < occupationList.size(); i++){
-            if(occupationList.get(i).getClientCpf() == cpf){
-                listOccupationByCpf.add(occupationList.get(i));
-            }
-        }
-
-        if(listOccupationByCpf.size() == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this CPF");
-        }
-
-        return ResponseEntity.ok(listOccupationByCpf);
-    }
-
-
 }

@@ -6,6 +6,7 @@ import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
+import com.parkingmanagement.parkingmanagement.service.OccupationService;
 import com.parkingmanagement.parkingmanagement.service.ParkingSpaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +20,10 @@ import java.util.List;
 @RestController @RequestMapping("/api") @AllArgsConstructor
 public class IndexController {
     private final ParkingSpaceService parkingSpaceService;
+
     private final ParkingSpaceRespository parkingSpaceRespository;
+
+    private final OccupationService occupationService;
 
     @PostMapping("/create/parkingspaces")
     public void createParkingSpaces() {
@@ -46,17 +50,17 @@ public class IndexController {
 
     @PutMapping("/vacateParkingSpace")
     public ResponseEntity vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
-        return parkingSpaceService.saveOccupation(vacateParkingSpaceDto);
+        return occupationService.saveOccupation(vacateParkingSpaceDto);
     }
 
     @GetMapping("/listOccupation")
     public ResponseEntity listOccupation(){
-        return parkingSpaceService.listAllOccupation();
+        return occupationService.listAllOccupation();
     }
 
     @GetMapping("/listOccupationById/{id}")
     public ResponseEntity listOccupationById(@Param("id")Long id){
-        return parkingSpaceService.listOccupationById(id);
+        return occupationService.listOccupationById(id);
     }
 
 }

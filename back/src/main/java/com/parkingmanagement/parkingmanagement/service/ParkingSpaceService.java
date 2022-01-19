@@ -17,12 +17,4 @@ public interface ParkingSpaceService {
     public ResponseEntity listParkingSpaceFilled();
     public ResponseEntity listParkingSpaceEmpty();
     public ResponseEntity fillParkingSpace(FillParkingSpaceDto fillParkingSpaceDTO);
-    public ResponseEntity saveOccupation(VacateParkingSpaceDto vacateParkingSpaceDto);
-    public ResponseEntity listAllOccupation();
-    public ResponseEntity listOccupationById(Long idOccupation);
-    public ResponseEntity listOccupationByLicensePlate(String licensePlate);
-    public ResponseEntity listOccupationByCpf(Long cpf);
-
-
-
 }
