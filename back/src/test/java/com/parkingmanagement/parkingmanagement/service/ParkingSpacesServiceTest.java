@@ -2,20 +2,12 @@ package com.parkingmanagement.parkingmanagement.service;
 
 import com.parkingmanagement.parkingmanagement.dto.EmptyParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
-import com.parkingmanagement.parkingmanagement.dto.OccupationDto;
-import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Car;
-import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
-import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
+import com.parkingmanagement.parkingmanagement.repository.OccupationRepositoryTest;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
-import com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -42,7 +34,7 @@ public class ParkingSpacesServiceTest {
     ParkingSpaceRespository parkingSpaceRespository;
 
     @Mock
-    OccupationRepository occupationRepository;
+    OccupationRepositoryTest occupationRepository;
 
     @Test
     public void itShouldReturnOnlyAvailableParkingSpaces(){

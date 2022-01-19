@@ -5,6 +5,7 @@ import com.parkingmanagement.parkingmanagement.model.Car;
 import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
+import com.parkingmanagement.parkingmanagement.repository.OccupationRepositoryTest;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -98,9 +99,9 @@ public class OccupationServiceTest {
         List<Occupation> occupationList = new ArrayList<>();
         occupationList.add(occupation1);
         occupationList.add(occupation2);
-        occupationList.add(occupation3);
 
-        Mockito.when(occupationRepository.findAll()).thenReturn(occupationList);
+
+        Mockito.when(occupationRepository.findAllbyCPF(Long.valueOf(123))).thenReturn(occupationList);
 
         List<Occupation> occupationListExpected = new ArrayList<>();
         occupationListExpected.add(occupation1);

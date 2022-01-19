@@ -64,7 +64,7 @@ public class ParkingSpaceRepositoryTest {
 
 
         //Then
-        Assertions.assertEquals(parkingSpaceListAvailableActual, parkingSpaceListAvailableExpected);
+        Assertions.assertEquals(parkingSpaceListAvailableExpected, parkingSpaceListAvailableActual);
 
     }
 
@@ -91,7 +91,7 @@ public class ParkingSpaceRepositoryTest {
 
 
         //Then
-        Assertions.assertEquals(parkingSpaceListAvailableActual, parkingSpaceListAvailableExpected);
+        Assertions.assertEquals(parkingSpaceListAvailableExpected, parkingSpaceListAvailableActual);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ParkingSpaceRepositoryTest {
         Optional<ParkingSpace> parkingSpaceActual = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
 
         //Then
-        Assertions.assertEquals(parkingSpaceExpected, parkingSpaceActual.get());
+        Assertions.assertEquals(parkingSpaceActual.get(), parkingSpaceExpected);
     }
 
 }

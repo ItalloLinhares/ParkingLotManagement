@@ -21,9 +21,7 @@ import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.
 @Transactional @AllArgsConstructor  @Service
 public class OccupationServiceImplementation implements OccupationService{
     private final OccupationRepository occupationRepository;
-
     private final ParkingSpaceRespository parkingSpaceRespository;
-
 
     @Override
     public ResponseEntity saveOccupation(VacateParkingSpaceDto vacateParkingSpaceDto) {
@@ -80,15 +78,7 @@ public class OccupationServiceImplementation implements OccupationService{
 
     @Override
     public ResponseEntity listOccupationByLicensePlate(String licensePlate) {
-        List<Occupation> occupationList = this.occupationRepository.findAll();
-        List<Occupation> listOccupationByLicensePlate = new ArrayList<>();
-
-
-        for (int i = 0; i < occupationList.size(); i++){
-            if(occupationList.get(i).getCar().getCarLicensePlate() == licensePlate){
-                listOccupationByLicensePlate.add(occupationList.get(i));
-            }
-        }
+        List<Occupation> listOccupationByLicensePlate = occupationRepository.findAllbyLicensePlate(licensePlate);
 
         if(listOccupationByLicensePlate.size() == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this LicensePlate");
@@ -99,15 +89,7 @@ public class OccupationServiceImplementation implements OccupationService{
 
     @Override
     public ResponseEntity listOccupationByCpf(Long cpf) {
-
-        List<Occupation> occupationList = this.occupationRepository.findAll();
-        List<Occupation> listOccupationByCpf = new ArrayList<>();
-
-        for (int i = 0; i < occupationList.size(); i++){
-            if(occupationList.get(i).getClientCpf() == cpf){
-                listOccupationByCpf.add(occupationList.get(i));
-            }
-        }
+        List<Occupation> listOccupationByCpf = occupationRepository.findAllbyCPF(cpf);
 
         if(listOccupationByCpf.size() == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this CPF");
