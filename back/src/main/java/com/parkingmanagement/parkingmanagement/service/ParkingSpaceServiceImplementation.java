@@ -50,7 +50,10 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public ResponseEntity listParkingSpaceEmpty() {
         List<ParkingSpace> listParkingSpaceAvailable = parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE);
 
-        if (listParkingSpaceAvailable.size() == 0) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+        //Validating the data passed
+        if (listParkingSpaceAvailable.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
+        }
 
         List<EmptyParkingSpaceDto> emptyParkingSpaceslist = new ArrayList<EmptyParkingSpaceDto>();
 
@@ -67,7 +70,10 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public ResponseEntity listParkingSpaceFilled() {
         List<ParkingSpace> listParkingSpaceUnavailable = parkingSpaceRespository.findParkingSpacebyStatus(UNAVAILABLE);
 
-        if (listParkingSpaceUnavailable.size() == 0) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
+        //Validating the data passed
+        if (listParkingSpaceUnavailable.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
+        }
 
         List<FillParkingSpaceDto> filledParkingSpaceslist = new ArrayList<FillParkingSpaceDto>();
 
@@ -89,8 +95,13 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
         Optional<ParkingSpace> parkingSpaceToBeFilled = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
 
-        if (!parkingSpaceToBeFilled.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
-        if (parkingSpaceToBeFilled.get().getParkingSpaceStatus() != AVAILABLE) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already used"); }
+        //Validating the data passed
+        if (!parkingSpaceToBeFilled.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
+        }
+        if (parkingSpaceToBeFilled.get().getParkingSpaceStatus() != AVAILABLE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already used");
+        }
 
         ParkingSpace parkingSpaceUpdated = new ParkingSpace();
         parkingSpaceUpdated.setId(parkingSpaceFilled.getId());
@@ -107,10 +118,19 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public ResponseEntity saveOccupation(VacateParkingSpaceDto vacateParkingSpaceDto) {
         Optional<ParkingSpace> parkingSpaceToBeEmpty = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
 
-        if (parkingSpaceToBeEmpty.isEmpty()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available"); }
-        if (parkingSpaceToBeEmpty.get().getParkingSpaceStatus() != UNAVAILABLE) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already empty"); }
+        //Validating the data passed
+        if (parkingSpaceToBeEmpty.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
+        }
+
+        if (parkingSpaceToBeEmpty.get().getParkingSpaceStatus() != UNAVAILABLE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already empty");
+        }
+
         int n = vacateParkingSpaceDto.getHourExity().compareTo(parkingSpaceToBeEmpty.get().getHourEntry());
-        if (n <= 0) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time"); }
+        if (n <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time");
+        }
 
 
         float price = ((vacateParkingSpaceDto.getHourExity().getHour() - parkingSpaceToBeEmpty.get().getHourEntry().getHour())*60) +
@@ -139,7 +159,10 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     @Override
     public ResponseEntity listOccupationById(Long idOccupation) {
         Optional<Occupation> occupation = occupationRepository.findById(idOccupation);
-        if (occupation.isEmpty()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this Id"); }
+
+        if (occupation.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this Id");
+        }
 
         return ResponseEntity.ok(occupation.get());
     }
@@ -147,34 +170,40 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     @Override
     public ResponseEntity listOccupationByLicensePlate(String licensePlate) {
         List<Occupation> occupationList = this.occupationRepository.findAll();
-        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
-        for (int i = 1; i <= n; i++){
-            if(occupation.get().getCar().getCarLicensePlate() == licensePlate){
-                OccupationDto occupationDto = new OccupationDto(occupation.get().getId(), occupation.get().getClientCpf(), occupation.get().getCar(), occupation.get().getHourEntry(), occupation.get().getHourExit(), occupation.get().getPrice());
-                occupationDtoList.add(occupationDto);
+        List<Occupation> listOccupationByLicensePlate = new ArrayList<>();
+
+
+        for (int i = 0; i < occupationList.size(); i++){
+            if(occupationList.get(i).getCar().getCarLicensePlate() == licensePlate){
+                listOccupationByLicensePlate.add(occupationList.get(i));
             }
         }
-        return occupationDtoList;
+
+        if(listOccupationByLicensePlate.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this LicensePlate");
+        }
+
+        return ResponseEntity.ok(listOccupationByLicensePlate);
 }
 
-//    @Override
-//    public List<OccupationDto> listOccupationByCpf(Long cpf) {
-//        //List<OccupationDto> = occupationRepository.findAll();
-//        Long n = occupationRepository.count();
-//        List<OccupationDto> occupationDtoList = new ArrayList<OccupationDto>();
-//        for (int i = 1; i <= n; i++){
-//
-//            Optional<Occupation> occupation = occupationRepository.findById(Long.valueOf(i));
-//            occupation.ifPresent(occupationPresent -> {
-//                if(occupationPresent.getClientCpf() == cpf){
-//                    OccupationDto occupationDto = new OccupationDto(occupationPresent.getId(), occupationPresent.getClientCpf(), occupationPresent.getCar(), occupationPresent.getHourEntry(), occupationPresent.getHourExit(), occupationPresent.getPrice());
-//                    occupationDtoList.add(occupationDto);
-//                }
-//            });
-//
-//        }
-//        return occupationDtoList;
-//    }
+    @Override
+    public ResponseEntity listOccupationByCpf(Long cpf) {
+
+        List<Occupation> occupationList = this.occupationRepository.findAll();
+        List<Occupation> listOccupationByCpf = new ArrayList<>();
+
+        for (int i = 0; i < occupationList.size(); i++){
+            if(occupationList.get(i).getClientCpf() == cpf){
+                listOccupationByCpf.add(occupationList.get(i));
+            }
+        }
+
+        if(listOccupationByCpf.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Occupation with this CPF");
+        }
+
+        return ResponseEntity.ok(listOccupationByCpf);
+    }
 
 
 }

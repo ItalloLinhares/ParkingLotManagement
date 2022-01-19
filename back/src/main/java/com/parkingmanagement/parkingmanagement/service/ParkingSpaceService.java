@@ -21,7 +21,7 @@ public interface ParkingSpaceService {
     public ResponseEntity listAllOccupation();
     public ResponseEntity listOccupationById(Long idOccupation);
     public ResponseEntity listOccupationByLicensePlate(String licensePlate);
-//  public List<OccupationDto> listOccupationByCpf(Long cpf);
+    public ResponseEntity listOccupationByCpf(Long cpf);
 
 
 

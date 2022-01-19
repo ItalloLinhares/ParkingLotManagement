@@ -68,7 +68,7 @@ public class ParkingSpacesServiceTest {
         ResponseEntity listParkingSpaceAvailableActual = parkingSpaceService.listParkingSpaceEmpty();
 
         //Then
-        Assert.assertEquals(ResponseEntity.ok(listParkingSpaceAvailableExpected).getBody(), listParkingSpaceAvailableActual.getBody());
+        Assert.assertEquals(listParkingSpaceAvailableExpected, listParkingSpaceAvailableActual.getBody());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ParkingSpacesServiceTest {
         ResponseEntity listParkingSpaceUnavailableActual = parkingSpaceService.listParkingSpaceFilled();
 
         //Then
-        Assert.assertEquals(ResponseEntity.ok(listParkingSpaceUnavailableExpected).getBody(), listParkingSpaceUnavailableActual.getBody());
+        Assert.assertEquals(listParkingSpaceUnavailableExpected, listParkingSpaceUnavailableActual.getBody());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class ParkingSpacesServiceTest {
 
         ResponseEntity occupationActual = parkingSpaceService.saveOccupation(vacateParkingSpace);
 
-        Assert.assertEquals(ResponseEntity.ok(occupationExpected).getBody(), occupationActual.getBody());
+        Assert.assertEquals(occupationExpected, occupationActual.getBody());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class ParkingSpacesServiceTest {
 
         ResponseEntity filledParkingSpaceDtoActual = parkingSpaceService.fillParkingSpace(filledParkingSpaceDto);
 
-        Assert.assertEquals(ResponseEntity.ok(filledParkingSpaceDtoExpected).getBody(), filledParkingSpaceDtoActual.getBody());
+        Assert.assertEquals(filledParkingSpaceDtoExpected, filledParkingSpaceDtoActual.getBody());
     }
 
     @Test
@@ -137,9 +137,53 @@ public class ParkingSpacesServiceTest {
         ResponseEntity occupationActual = parkingSpaceService.listOccupationById(occupationExpected.getId());
 
 
-        Assert.assertEquals(ResponseEntity.ok(occupationExpected).getBody(), occupationActual.getBody());
+        Assert.assertEquals(occupationExpected, occupationActual.getBody());
     }
 
+    @Test
+    public void itShouldReturnListOfOccupationByLicensePlate(){
+        Occupation occupation1 = new Occupation(Long.valueOf(1), Long.valueOf(123), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(13, 0), LocalTime.of(15,0), 120);
+        Occupation occupation2 = new Occupation(Long.valueOf(2), Long.valueOf(123), new Car("xyz-6789", "Renault Sandero 2009"), LocalTime.of(13, 0), LocalTime.of(15,0), 120);
+        Occupation occupation3 = new Occupation(Long.valueOf(3), Long.valueOf(456), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(17, 0), LocalTime.of(19,0), 120);
+
+        List<Occupation> occupationList = new ArrayList<>();
+        occupationList.add(occupation1);
+        occupationList.add(occupation2);
+        occupationList.add(occupation3);
+
+        Mockito.when(occupationRepository.findAll()).thenReturn(occupationList);
+
+        List<Occupation> occupationListExpected = new ArrayList<>();
+        occupationListExpected.add(occupation1);
+        occupationListExpected.add(occupation3);
+
+        ResponseEntity occupationListActual = parkingSpaceService.listOccupationByLicensePlate("abc-1234");
+
+
+        Assertions.assertEquals(occupationListExpected, occupationListActual.getBody());
+    }
+
+    @Test
+    public void itShouldReturnListOfOccupationByCpf(){
+        Occupation occupation1 = new Occupation(Long.valueOf(1), Long.valueOf(123), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(13, 0), LocalTime.of(15,0), 120);
+        Occupation occupation2 = new Occupation(Long.valueOf(2), Long.valueOf(123), new Car("xyz-6789", "Renault Sandero 2009"), LocalTime.of(13, 0), LocalTime.of(15,0), 120);
+        Occupation occupation3 = new Occupation(Long.valueOf(3), Long.valueOf(456), new Car("abc-1234", "Honda Civic 2009"), LocalTime.of(17, 0), LocalTime.of(19,0), 120);
+
+        List<Occupation> occupationList = new ArrayList<>();
+        occupationList.add(occupation1);
+        occupationList.add(occupation2);
+        occupationList.add(occupation3);
+
+        Mockito.when(occupationRepository.findAll()).thenReturn(occupationList);
+
+        List<Occupation> occupationListExpected = new ArrayList<>();
+        occupationListExpected.add(occupation1);
+        occupationListExpected.add(occupation2);
+
+        ResponseEntity occupationListActual = parkingSpaceService.listOccupationByCpf(Long.valueOf(123));
+
+        Assertions.assertEquals(occupationListExpected, occupationListActual.getBody());
+    }
 
 
 }
