@@ -63,4 +63,16 @@ public class IndexController {
         return occupationService.listOccupationById(id);
     }
 
+    @GetMapping("/listOccupationBylicensPlate/{licensPlate}")
+    public ResponseEntity listOccupationByLicensPlate(@Param("licensPlate")String licensPlate){
+        return occupationService.listOccupationByLicensePlate(licensPlate);
+    }
+
+    @GetMapping("/listOccupationByCpf/{cpf}")
+    public ResponseEntity listOccupationByLicensPlate(@Param("cpf")Long cpf){
+        return occupationService.listOccupationByCpf(cpf);
+    }
+
+
+
 }
