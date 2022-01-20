@@ -77,8 +77,8 @@ public class ParkingSpacesServiceTest {
 
         Mockito.when(parkingSpaceRespository.findParkingSpacebyStatus(UNAVAILABLE)).thenReturn(listParkingSpaceUnavailable);
 
-        FillParkingSpaceDto filledParkingSpaceDto1 = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
-        FillParkingSpaceDto filledParkingSpaceDto2 = new FillParkingSpaceDto(Long.valueOf(2), new Car("xyz-6789", "Renault Sandero 2010"), Long.valueOf(789), UNAVAILABLE, LocalTime.of(15, 0));
+        FillParkingSpaceDto filledParkingSpaceDto1 = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), LocalTime.of(13, 0));
+        FillParkingSpaceDto filledParkingSpaceDto2 = new FillParkingSpaceDto(Long.valueOf(2), new Car("xyz-6789", "Renault Sandero 2010"), Long.valueOf(789), LocalTime.of(15, 0));
 
         List<FillParkingSpaceDto> listParkingSpaceUnavailableExpected = new ArrayList<>();
         listParkingSpaceUnavailableExpected.add(filledParkingSpaceDto1);
@@ -95,7 +95,7 @@ public class ParkingSpacesServiceTest {
 
     @Test
     public void itShouldFillParkingSpace(){
-        FillParkingSpaceDto filledParkingSpaceDto = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
+        FillParkingSpaceDto filledParkingSpaceDto = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), LocalTime.of(13, 0));
 
         ParkingSpace filledParkingSpaceDtoExpected = new ParkingSpace(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), Long.valueOf(123), UNAVAILABLE, LocalTime.of(13, 0));
         ParkingSpace parkingSpaceAvailable = new ParkingSpace(Long.valueOf(1), null, null, AVAILABLE, null);

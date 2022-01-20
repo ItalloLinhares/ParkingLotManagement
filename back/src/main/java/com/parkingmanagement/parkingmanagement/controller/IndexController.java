@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController @RequestMapping("/api") @AllArgsConstructor
@@ -44,12 +45,12 @@ public class IndexController {
     }
 
     @PutMapping("/fillParkingSpace")
-    public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
+    public ResponseEntity fillParkingSpace(@RequestBody FillParkingSpaceDto parkingSpaceFilled) {
         return parkingSpaceService.fillParkingSpace(parkingSpaceFilled);
     }
 
     @PutMapping("/vacateParkingSpace")
-    public ResponseEntity vacateParkingSpace(VacateParkingSpaceDto vacateParkingSpaceDto) {
+    public ResponseEntity vacateParkingSpace(@RequestBody VacateParkingSpaceDto vacateParkingSpaceDto) {
         return occupationService.saveOccupation(vacateParkingSpaceDto);
     }
 

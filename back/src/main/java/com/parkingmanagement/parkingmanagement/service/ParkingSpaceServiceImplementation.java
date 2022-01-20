@@ -6,6 +6,7 @@ import com.parkingmanagement.parkingmanagement.dto.OccupationDto;
 import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
+import com.parkingmanagement.parkingmanagement.repository.CarRepository;
 import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,8 @@ import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.
 public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
 
     private final ParkingSpaceRespository parkingSpaceRespository;
+
+    private final CarRepository carRepository;
 
     @Override
     public void createParkingSpace() {
@@ -78,7 +81,6 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
         for(int i = 0; i < listParkingSpaceUnavailable.size(); i++){
             FillParkingSpaceDto parkingSpaceFilled = new FillParkingSpaceDto();
             parkingSpaceFilled.setId(listParkingSpaceUnavailable.get(i).getId());
-            parkingSpaceFilled.setParkingSpaceStatus(listParkingSpaceUnavailable.get(i).getParkingSpaceStatus());
             parkingSpaceFilled.setClientCpf(listParkingSpaceUnavailable.get(i).getClientCpf());
             parkingSpaceFilled.setCar(listParkingSpaceUnavailable.get(i).getCar());
             parkingSpaceFilled.setHourEntry(listParkingSpaceUnavailable.get(i).getHourEntry());
@@ -101,12 +103,14 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already used");
         }
 
+        carRepository.save(parkingSpaceFilled.getCar());
+
         ParkingSpace parkingSpaceUpdated = new ParkingSpace();
         parkingSpaceUpdated.setId(parkingSpaceFilled.getId());
         parkingSpaceUpdated.setCar(parkingSpaceFilled.getCar());
         parkingSpaceUpdated.setClientCpf(parkingSpaceFilled.getClientCpf());
         parkingSpaceUpdated.setHourEntry(parkingSpaceFilled.getHourEntry());
-        parkingSpaceUpdated.setParkingSpaceStatus(parkingSpaceFilled.getParkingSpaceStatus());
+        parkingSpaceUpdated.setParkingSpaceStatus(UNAVAILABLE);
         parkingSpaceRespository.save(parkingSpaceUpdated);
 
         return ResponseEntity.ok(parkingSpaceUpdated);
