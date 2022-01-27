@@ -5,33 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0695aa71-b526-4932-a3ed-2fcf5bc3eb65" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/ParkingmanagementApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/controller/IndexController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/EmptyParkingSpaceDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/FillParkingSpaceDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/OccupationDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/dto/VacateParkingSpaceDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/model/Car.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/model/Occupation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/model/ParkingSpace.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/repository/OccupationRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/repository/ParkingSpaceRespository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/service/ParkingSpaceService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/service/ParkingSpaceServiceImplementation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/parkingmanagement/parkingmanagement/status/ParkingSpaceStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/FillParkingSpaceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/ListOccupationTeste.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/ListParkingSpaceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/ParkingmanagementApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/parkingmanagement/parkingmanagement/VacateParkingSpaceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

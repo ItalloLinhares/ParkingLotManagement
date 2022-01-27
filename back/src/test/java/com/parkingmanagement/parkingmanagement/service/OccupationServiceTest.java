@@ -78,7 +78,7 @@ public class OccupationServiceTest {
         occupationList.add(occupation2);
         occupationList.add(occupation3);
 
-        Mockito.when(occupationRepository.findAll()).thenReturn(occupationList);
+        Mockito.when(occupationRepository.findAllbyLicensePlate("abc-1234")).thenReturn(occupationList);
 
         List<Occupation> occupationListExpected = new ArrayList<>();
         occupationListExpected.add(occupation1);
