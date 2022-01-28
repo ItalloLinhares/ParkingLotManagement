@@ -100,10 +100,15 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     @Override
     public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
         Optional<ParkingSpace> parkingSpaceToBeFilled = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
+        Car car = new Car(
+                parkingSpaceFilled.getCar().getCarLicensePlate(),
+                parkingSpaceFilled.getCar().getCarModelName()
+                );
+        carRepository.save(car);
 
         ParkingSpace parkingSpaceUpdated = new ParkingSpace(
                 parkingSpaceFilled.getId(),
-                parkingSpaceFilled.getCar(),
+                car,
                 parkingSpaceFilled.getClientCpf(),
                 UNAVAILABLE,
                 parkingSpaceFilled.getHourEntry()
