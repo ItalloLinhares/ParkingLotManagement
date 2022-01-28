@@ -27,15 +27,6 @@ public class OccupationServiceImplementation implements OccupationService{
     public ResponseEntity saveOccupation(VacateParkingSpaceDto vacateParkingSpaceDto) {
         Optional<ParkingSpace> parkingSpaceToBeEmpty = parkingSpaceRespository.findById(vacateParkingSpaceDto.getId());
 
-        //Validating the data passed
-        if (parkingSpaceToBeEmpty.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
-        }
-
-        if (parkingSpaceToBeEmpty.get().getParkingSpaceStatus() != UNAVAILABLE) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This ParkingSpace is already empty");
-        }
-
         int n = vacateParkingSpaceDto.getHourExity().compareTo(parkingSpaceToBeEmpty.get().getHourEntry());
         if (n <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exit time is equals or minor than Entry time");
@@ -45,12 +36,19 @@ public class OccupationServiceImplementation implements OccupationService{
         float price = ((vacateParkingSpaceDto.getHourExity().getHour() - parkingSpaceToBeEmpty.get().getHourEntry().getHour())*60) +
                 vacateParkingSpaceDto.getHourExity().getMinute() - parkingSpaceToBeEmpty.get().getHourEntry().getMinute();
 
-        Occupation occupation = new Occupation();
-        occupation.setCar(parkingSpaceToBeEmpty.get().getCar());
-        occupation.setClientCpf(parkingSpaceToBeEmpty.get().getClientCpf());
-        occupation.setHourEntry(parkingSpaceToBeEmpty.get().getHourEntry());
-        occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
-        occupation.setPrice(price);
+        Occupation occupation = new Occupation(
+                null,
+                parkingSpaceToBeEmpty.get().getClientCpf(),
+                parkingSpaceToBeEmpty.get().getCar(),
+                parkingSpaceToBeEmpty.get().getHourEntry(),
+                vacateParkingSpaceDto.getHourExity(),
+                price
+        );
+//        occupation.setCar(parkingSpaceToBeEmpty.get().getCar());
+//        occupation.setClientCpf(parkingSpaceToBeEmpty.get().getClientCpf());
+//        occupation.setHourEntry(parkingSpaceToBeEmpty.get().getHourEntry());
+//        occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
+//        occupation.setPrice(price);
 
         occupationRepository.save(occupation);
 

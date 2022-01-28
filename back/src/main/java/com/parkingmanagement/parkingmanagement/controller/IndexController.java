@@ -45,7 +45,7 @@ public class IndexController {
     }
 
     @PutMapping("/fillParkingSpace")
-    public ResponseEntity fillParkingSpace(@RequestBody FillParkingSpaceDto parkingSpaceFilled) {
+    public ResponseEntity fillParkingSpace(@Valid @RequestBody FillParkingSpaceDto parkingSpaceFilled) {
         return parkingSpaceService.fillParkingSpace(parkingSpaceFilled);
     }
 
