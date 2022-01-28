@@ -49,29 +49,32 @@ public class IndexController {
         return parkingSpaceService.fillParkingSpace(parkingSpaceFilled);
     }
 
+    @PostMapping("/create/occupations")
+    public void createOccupation() { occupationService.createOccupation();  }
+
     @PutMapping("/vacateParkingSpace")
     public ResponseEntity vacateParkingSpace(@RequestBody VacateParkingSpaceDto vacateParkingSpaceDto) {
         return occupationService.saveOccupation(vacateParkingSpaceDto);
     }
 
     @GetMapping("/listOccupation")
-    public ResponseEntity listOccupation(){
-        return occupationService.listAllOccupation();
+    public ResponseEntity listOccupation(@RequestParam("page") int page, @RequestParam("size") int size){
+        return occupationService.listAllOccupation(page, size);
     }
 
-    @GetMapping("/listOccupationById/{id}")
-    public ResponseEntity listOccupationById(@Param("id")Long id){
+    @GetMapping("/listOccupationById")
+    public ResponseEntity listOccupationById(@RequestParam("id")Long id){
         return occupationService.listOccupationById(id);
     }
 
     @GetMapping("/listOccupationBylicensPlate/{licensPlate}")
-    public ResponseEntity listOccupationByLicensPlate(@Param("licensPlate")String licensPlate){
-        return occupationService.listOccupationByLicensePlate(licensPlate);
+    public ResponseEntity listOccupationByLicensPlate(@PathVariable("licensPlate")String licensPlate, @RequestParam("page") int page, @RequestParam("size") int size){
+        return occupationService.listOccupationByLicensePlate(licensPlate, page, size);
     }
 
     @GetMapping("/listOccupationByCpf/{cpf}")
-    public ResponseEntity listOccupationByLicensPlate(@Param("cpf")Long cpf){
-        return occupationService.listOccupationByCpf(cpf);
+    public ResponseEntity listOccupationByLicensPlate(@PathVariable("cpf")Long cpf, @RequestParam("page") int page, @RequestParam("size") int size){
+        return occupationService.listOccupationByCpf(cpf, page, size);
     }
 
 

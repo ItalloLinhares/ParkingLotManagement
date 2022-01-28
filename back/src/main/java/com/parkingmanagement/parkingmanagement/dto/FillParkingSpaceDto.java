@@ -1,5 +1,6 @@
 package com.parkingmanagement.parkingmanagement.dto;
 
+import com.parkingmanagement.parkingmanagement.model.Car;
 import com.parkingmanagement.parkingmanagement.validation.ValidIdAvailable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class FillParkingSpaceDto {
     @ValidIdAvailable
     private Long id;
     @NotNull(message = "Car is required")
-    private CarDto car;
+    private Car car;
     @CPF(message = "Invalid CPF")
     @NotNull(message = "Client CPF is required")
     private String clientCpf;

@@ -1,21 +1,22 @@
 package com.parkingmanagement.parkingmanagement.repository;
 
 import com.parkingmanagement.parkingmanagement.model.Occupation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface OccupationRepository extends JpaRepository<Occupation, Long> {
+public interface OccupationRepository extends PagingAndSortingRepository<Occupation, Long> {
     @Query("SELECT o FROM Occupation o WHERE o.clientCpf = :cpf")
-    List<Occupation> findAllbyCPF(@Param("cpf") Long cpf);
+    Page<Occupation> findAllbyCPF(@Param("cpf") Long cpf, Pageable pageable);
 
     @Query("SELECT o FROM Occupation o WHERE o.car.carLicensePlate = :licensePlate")
-    List<Occupation> findAllbyLicensePlate(@Param("licensePlate") String licensePlate);
-
-
-
+    Page<Occupation> findAllbyLicensePlate(@Param("licensePlate") String licensePlate, Pageable pageable);
 }

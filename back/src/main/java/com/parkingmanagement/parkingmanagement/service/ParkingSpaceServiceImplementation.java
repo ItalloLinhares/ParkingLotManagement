@@ -2,6 +2,7 @@ package com.parkingmanagement.parkingmanagement.service;
 
 import com.parkingmanagement.parkingmanagement.dto.EmptyParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
+import com.parkingmanagement.parkingmanagement.model.Car;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.
 public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
 
     private final ParkingSpaceRespository parkingSpaceRespository;
+
 
     @Override
     public void createParkingSpace() {
@@ -86,10 +88,13 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     @Override
     public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
         Optional<ParkingSpace> parkingSpaceToBeFilled = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
-
+        Car car = new Car (
+                parkingSpaceFilled.getCar().getCarLicensePlate(),
+                parkingSpaceFilled.getCar().getCarModelName()
+        );
         ParkingSpace parkingSpaceUpdated = new ParkingSpace(
                 parkingSpaceFilled.getId(),
-                parkingSpaceFilled.getCar(),
+                car,
                 parkingSpaceFilled.getClientCpf(),
                 UNAVAILABLE,
                 parkingSpaceFilled.getHourEntry()
