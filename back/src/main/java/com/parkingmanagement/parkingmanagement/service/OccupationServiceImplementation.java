@@ -44,11 +44,6 @@ public class OccupationServiceImplementation implements OccupationService{
                 vacateParkingSpaceDto.getHourExity(),
                 price
         );
-//        occupation.setCar(parkingSpaceToBeEmpty.get().getCar());
-//        occupation.setClientCpf(parkingSpaceToBeEmpty.get().getClientCpf());
-//        occupation.setHourEntry(parkingSpaceToBeEmpty.get().getHourEntry());
-//        occupation.setHourExit(vacateParkingSpaceDto.getHourExity());
-//        occupation.setPrice(price);
 
         occupationRepository.save(occupation);
 

@@ -1,6 +1,5 @@
 package com.parkingmanagement.parkingmanagement.dto;
 
-import com.parkingmanagement.parkingmanagement.model.Car;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class OccupationDto {
     @CPF
     private String clientCpf;
     @NotNull
-    private Car car;
+    private CarDto car;
     private LocalTime hourEntry;
     private LocalTime hourExit;
     private float price;

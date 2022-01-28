@@ -2,13 +2,7 @@ package com.parkingmanagement.parkingmanagement.service;
 
 import com.parkingmanagement.parkingmanagement.dto.EmptyParkingSpaceDto;
 import com.parkingmanagement.parkingmanagement.dto.FillParkingSpaceDto;
-import com.parkingmanagement.parkingmanagement.dto.OccupationDto;
-import com.parkingmanagement.parkingmanagement.dto.VacateParkingSpaceDto;
-import com.parkingmanagement.parkingmanagement.model.Car;
-import com.parkingmanagement.parkingmanagement.model.Occupation;
 import com.parkingmanagement.parkingmanagement.model.ParkingSpace;
-import com.parkingmanagement.parkingmanagement.repository.CarRepository;
-import com.parkingmanagement.parkingmanagement.repository.OccupationRepository;
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,11 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.AVAILABLE;
 import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.UNAVAILABLE;
@@ -30,8 +22,6 @@ import static com.parkingmanagement.parkingmanagement.status.ParkingSpaceStatus.
 public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
 
     private final ParkingSpaceRespository parkingSpaceRespository;
-
-    private final CarRepository carRepository;
 
     @Override
     public void createParkingSpace() {
@@ -52,7 +42,6 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public ResponseEntity listParkingSpaceEmpty() {
         List<ParkingSpace> listParkingSpaceAvailable = parkingSpaceRespository.findParkingSpacebyStatus(AVAILABLE);
 
-        //Validating the data passed
         if (listParkingSpaceAvailable.size() == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
         }
@@ -60,8 +49,9 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
         List<EmptyParkingSpaceDto> emptyParkingSpaceslist = new ArrayList<EmptyParkingSpaceDto>();
 
         for(int i = 0; i < listParkingSpaceAvailable.size(); i++){
-            EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto();
-            parkingSpaceAvailable.setId(listParkingSpaceAvailable.get(i).getId());
+            EmptyParkingSpaceDto parkingSpaceAvailable = new EmptyParkingSpaceDto(
+                    listParkingSpaceAvailable.get(i).getId()
+            );
             emptyParkingSpaceslist.add(parkingSpaceAvailable);
         }
 
@@ -72,7 +62,6 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     public ResponseEntity listParkingSpaceFilled() {
         List<ParkingSpace> listParkingSpaceUnavailable = parkingSpaceRespository.findParkingSpacebyStatus(UNAVAILABLE);
 
-        //Validating the data passed
         if (listParkingSpaceUnavailable.size() == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No parking space Available");
         }
@@ -86,10 +75,7 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
                     listParkingSpaceUnavailable.get(i).getClientCpf(),
                     listParkingSpaceUnavailable.get(i).getHourEntry()
             );
-//            parkingSpaceFilled.setId(listParkingSpaceUnavailable.get(i).getId());
-//            parkingSpaceFilled.setClientCpf(listParkingSpaceUnavailable.get(i).getClientCpf());
-//            parkingSpaceFilled.setCar(listParkingSpaceUnavailable.get(i).getCar());
-//            parkingSpaceFilled.setHourEntry(listParkingSpaceUnavailable.get(i).getHourEntry());
+
             filledParkingSpaceslist.add(parkingSpaceFilled);
         }
 
@@ -100,15 +86,10 @@ public class ParkingSpaceServiceImplementation implements ParkingSpaceService{
     @Override
     public ResponseEntity fillParkingSpace(FillParkingSpaceDto parkingSpaceFilled) {
         Optional<ParkingSpace> parkingSpaceToBeFilled = parkingSpaceRespository.findById(parkingSpaceFilled.getId());
-        Car car = new Car(
-                parkingSpaceFilled.getCar().getCarLicensePlate(),
-                parkingSpaceFilled.getCar().getCarModelName()
-                );
-        carRepository.save(car);
 
         ParkingSpace parkingSpaceUpdated = new ParkingSpace(
                 parkingSpaceFilled.getId(),
-                car,
+                parkingSpaceFilled.getCar(),
                 parkingSpaceFilled.getClientCpf(),
                 UNAVAILABLE,
                 parkingSpaceFilled.getHourEntry()
