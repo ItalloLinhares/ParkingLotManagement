@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface OccupationRepository extends PagingAndSortingRepository<Occupation, Long> {
     @Query("SELECT o FROM Occupation o WHERE o.clientCpf = :cpf")
-    Page<Occupation> findAllbyCPF(@Param("cpf") Long cpf, Pageable pageable);
+    Page<Occupation> findAllbyCPF(@Param("cpf") String cpf, Pageable pageable);
 
     @Query("SELECT o FROM Occupation o WHERE o.car.carLicensePlate = :licensePlate")
     Page<Occupation> findAllbyLicensePlate(@Param("licensePlate") String licensePlate, Pageable pageable);

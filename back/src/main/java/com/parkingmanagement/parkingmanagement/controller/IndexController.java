@@ -73,7 +73,7 @@ public class IndexController {
     }
 
     @GetMapping("/listOccupationByCpf/{cpf}")
-    public ResponseEntity listOccupationByLicensPlate(@PathVariable("cpf")Long cpf, @RequestParam("page") int page, @RequestParam("size") int size){
+    public ResponseEntity listOccupationByCpf(@PathVariable("cpf")String cpf, @RequestParam("page") int page, @RequestParam("size") int size){
         return occupationService.listOccupationByCpf(cpf, page, size);
     }
 

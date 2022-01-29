@@ -92,7 +92,7 @@ public class OccupationServiceImplementation implements OccupationService{
     }
 
     @Override
-    public ResponseEntity listOccupationByCpf(Long cpf, int page, int size) {
+    public ResponseEntity listOccupationByCpf(String cpf, int page, int size) {
         Pageable pageRequest = PageRequest.of(page, size);
         Page<Occupation> listOccupationByCpf = occupationRepository.findAllbyCPF(cpf, pageRequest);
 

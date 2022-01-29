@@ -8,6 +8,6 @@ public interface OccupationService {
     public ResponseEntity listAllOccupation(int page, int size);
     public ResponseEntity listOccupationById(Long idOccupation);
     public ResponseEntity listOccupationByLicensePlate(String licensePlate, int page, int size);
-    public ResponseEntity listOccupationByCpf(Long cpf, int page, int size);
+    public ResponseEntity listOccupationByCpf(String cpf, int page, int size);
     public void createOccupation();
 }
