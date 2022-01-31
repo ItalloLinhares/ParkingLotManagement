@@ -8,6 +8,7 @@ import com.parkingmanagement.parkingmanagement.repository.OccupationRepositoryTe
 import com.parkingmanagement.parkingmanagement.repository.ParkingSpaceRespository;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Nested;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -92,7 +93,6 @@ public class ParkingSpacesServiceTest {
     }
 
 
-
     @Test
     public void itShouldFillParkingSpace(){
         FillParkingSpaceDto filledParkingSpaceDto = new FillParkingSpaceDto(Long.valueOf(1), new Car("abc-1234", "Honda Civic 2009"), "525.721.680-90", LocalTime.of(13, 0));
@@ -106,5 +106,7 @@ public class ParkingSpacesServiceTest {
 
         Assert.assertEquals(filledParkingSpaceDtoExpected, filledParkingSpaceDtoActual.getBody());
     }
+
+
 }
 
